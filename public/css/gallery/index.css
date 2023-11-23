@@ -1,0 +1,45 @@
+.galleries-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin: 5vw 0;
+}
+
+.gallery-container {
+    height: 45vh;
+    overflow: hidden;
+    width: 90%;
+    position: relative;
+}
+
+.gallery-container > img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.gallery-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: backdrop-filter 100ms ease-out;
+    cursor: pointer;
+}
+.gallery-title:hover {
+    backdrop-filter: blur(3px);
+}
+
+.gallery-title > h2 {
+    font-size: 4vh;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 200;
+    color: #f0f4ef;
+    border: #f0f4ef 1px solid;
+    padding: 1vh 2vw;
+}

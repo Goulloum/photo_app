@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+	</head>
+	<body>
+		<nav class="navbar-container">
+			<h1 class="navbar-title">RICHARD<br/>GUILLEMIN</h1>
+			<ul>
+				<li><a style="font-weight: {{app.request.pathinfo == '/' ? " bold": " inherit"}}"href="{{path('app_gallery')}}">Galleries</a></li>
+				<li><a style="font-weight: {{app.request.pathinfo == '/about' ? " bold": " inherit"}}" href="">À propos</a></li>
+				<li><a style="font-weight: {{app.request.pathinfo == '/contact' ? " bold": " inherit"}}" href="">Contact</a></li>
+			</ul>
+		</nav>
+		{% block body %}{% endblock %}
+	</body>
 </html>

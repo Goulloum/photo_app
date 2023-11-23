@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('css/gallery/index.css')}}">
+{% endblock %}
+
+{% block body %}
+	<div class="galleries-container">
+		{% for gallery in galleries %}
+
+			<div class="gallery-container">
+				<img style="transform: translate({{gallery.backgroundXOffset}}%, {{gallery.backgroundYOffset}}%)" src="{{asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ gallery.backgroundPath)}}" alt="">
+				<div onclick="return document.location='{{path('app_gallery_show', {id: gallery.id})}}'" class="gallery-title">
+					<h2>{{gallery.name}}</h2>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+
+{% endblock %}

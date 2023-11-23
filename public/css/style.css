@@ -1,0 +1,39 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+h1 {
+    margin: 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh;
+}
+
+.navbar-container > ul {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style: none;
+}
+.navbar-container > ul > li {
+    margin: 0 1vw;
+}
+
+.navbar-title {
+    font-size: 4vh;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+}
