@@ -1,0 +1,5 @@
+.gallery-table-container {
+    width: calc(100% - 4vw);
+    padding: 0 2vw;
+    margin: 5vh 0;
+}

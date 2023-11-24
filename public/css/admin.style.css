@@ -1,0 +1,85 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+h1 {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-container {
+    width: 17vw;
+    background-color: #f0f4ef;
+    height: 100%;
+}
+.content-container {
+    width: 85vw;
+    height: 100%;
+}
+
+.navbar-container > ul {
+    list-style: none;
+    padding: 0;
+    margin: 3vh 0;
+    width: calc(100% - 2vw);
+}
+.navbar-container > ul > li {
+    margin: 3vh 0;
+    text-transform: uppercase;
+    font-size: 3vh;
+    width: 100%;
+    padding: 1vh 1vw;
+}
+
+.navbar-container > ul > .selected {
+    background-color: #0d1821;
+}
+
+.navbar-container > ul > .selected > a {
+    color: #f0f4ef;
+}
+
+.navbar-container > ul > li:not(.selected):hover > a {
+    text-decoration: underline;
+}
+
+.navbar-title {
+    font-size: 4vh;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0px 0px 2px 2px rgba(70, 77, 119, 0.178);
+}
+
+table thead tr {
+    background-color: #0d1821;
+    color: #f0f4ef;
+}
+
+table thead tr th {
+    padding: 1vh 1vw;
+}
+
+table tbody tr:hover {
+    background-color: #f0f4ef;
+}
+
+table
