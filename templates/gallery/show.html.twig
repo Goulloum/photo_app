@@ -1,7 +1,14 @@
-{% extends 'base.html.twig' %}
-
-{% block stylesheets %}
-	<link rel="stylesheet" href="{{asset('css/gallery/index.css')}}">
+{% extends 'base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/gallery/index.css') }}" />
+{% endblock %} {% block body %} {% for photo in gallery.photos %}
+<div class="gallery-container">
+    <div class="gallery-photo">
+        <img
+            src="{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}"
+            alt="{{ photo.name }}"
+        />
+    </div>
+</div>
+{% endfor %} {% endblock %} {% block javascripts %}
+<!-- <script src="{{ asset('js/gallery/index.js') }}"></script> -->
 {% endblock %}
-
-{% block body %}{% endblock %}

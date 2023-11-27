@@ -25,4 +25,13 @@ class AdminController extends AbstractController
             'galleries' => $galleries,
         ]);
     }
+
+    #[Route('/admin/gallery/{id}', name: 'app_admin_gallery_show', requirements: ['id' => '\d+'])]
+    public function galleryShow(GalleryRepository $galleryRepository, $id): Response
+    {
+        $gallery = $galleryRepository->find($id);
+        return $this->render('admin/gallery_show.html.twig', [
+            'gallery' => $gallery,
+        ]);
+    }
 }

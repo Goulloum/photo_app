@@ -1,0 +1,52 @@
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/admin/show-gallery.css') }}" />
+{% endblock %} {% block body %}
+<div class="show-gallery-admin-container">
+    <div class="gallery-header">
+        <h1>{{ gallery.name }}</h1>
+        <div class="gallery-actions">
+            <a
+                href="{{ path('app_gallery_edit', { id: gallery.id }) }}"
+                class="btn btn-primary"
+                >Modifier</a
+            >
+            <a
+                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette galerie ?')"
+                href="{{ path('app_gallery_delete', { id: gallery.id }) }}"
+                class="btn btn-danger"
+                >Supprimer</a
+            >
+        </div>
+    </div>
+    <div class="gallery-photos">
+        {% for photo in gallery.photos %}
+        <div class="gallery-photo">
+            <img
+                src="{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}"
+                alt="{{ photo.name }}"
+            />
+            <div class="gallery-photo-actions">
+                {#<a
+                    href="{{ path('app_photo_edit', { id: photo.id }) }}"
+                    class="btn btn-primary"
+                    >Modifier</a
+                >
+                <a
+                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')"
+                    href="{{ path('app_photo_delete', { id: photo.id }) }}"
+                    class="btn btn-danger"
+                    >Supprimer</a
+                >#}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="gallery-footer">
+        <a
+            href="{{ path('app_gallery_photo_create', { id: gallery.id }) }}"
+            class="btn btn-primary"
+            >Ajouter une photo</a
+        >
+    </div>
+</div>
+{% endblock %}

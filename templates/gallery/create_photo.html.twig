@@ -1,21 +1,25 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/gallery/create.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/gallery/create_photo.css') }}" />
 {% endblock %} {% block body %}
-<div class="create-gallery-container">
+<div class="create-photo-gallery-container">
     <div class="form-container">
         {{ form_start(form) }}
+
         {{ form_row(form.name) }}
-        <label>Image de couverture</label>
-        <label for="{{ form.background.vars.id }}" class="required file-label"
+        <label>Photo</label>
+        <label for="{{ form.img.vars.id }}" class="required file-label"
             >Choississez un fichier</label
         >
         <div class="file-name"></div>
-        {{ form_widget(form.background) }}
+        {{ form_widget(form.img) }}
 
-        {{ form_row(form.backgroundXOffset) }}
-        {{ form_row(form.backgroundYOffset) }}
+        {{ form_row(form.description) }}
 
+        {{ form_row(form.location) }}
+
+        {{ form_row(form.datePhoto) }}
         <button type="submit" class="btn">Enregistrer</button>
+
         {{ form_end(form) }}
     </div>
     <div class="image-container">
@@ -25,10 +29,8 @@
 
 <script>
     const imagePreview = document.querySelector(".image_preview");
-    const input = document.querySelector("#gallery_background");
+    const input = document.querySelector("#{{ form.img.vars.id }}");
     const fileName = document.querySelector(".file-name");
-    const xOffset = document.querySelector("#gallery_backgroundXOffset");
-    const yOffset = document.querySelector("#gallery_backgroundYOffset");
 
     input.addEventListener("change", () => {
         const file = input.files[0];
@@ -40,13 +42,6 @@
 
         reader.readAsDataURL(file);
         fileName.innerHTML = file.name;
-    });
-
-    xOffset.addEventListener("change", () => {
-        imagePreview.style.transform = "translateX(" + xOffset.value + "%) ";
-    });
-    yOffset.addEventListener("change", () => {
-        imagePreview.style.transform = "translateY(" + yOffset.value + "%) ";
     });
 </script>
 {% endblock %}

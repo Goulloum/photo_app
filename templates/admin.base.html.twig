@@ -15,15 +15,15 @@
 
 		<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/r-2.5.0/datatables.min.css" rel="stylesheet">
 		<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/r-2.5.0/datatables.min.js"></script>
-
+		<link rel="stylesheet" href="{{asset('css/components/buttons.css')}}">
 	</head>
 	<body>
 		<nav class="navbar-container">
 			<ul>
-				<li class="{{app.request.pathinfo == '/admin' ? "selected": ""}}">
+				<li class="{{app.request.pathinfo == '/admin' ? 'selected': ''}}">
 					<a href="{{path('app_admin')}}">Tableau de bord</a>
 				</li>
-				<li class="{{app.request.pathinfo == '/admin/gallery' ? "selected": ""}}">
+				<li class="{{app.request.pathinfo == '/admin/gallery' ? 'selected': ''}}">
 					<a href="{{path('app_admin_gallery')}}">Édition gallerie</a>
 				</li>
 				{# <li><a style="font-weight: {{app.request.pathinfo == '/contact' ? " bold": " inherit"}}" href="">Contact</a></li> #}

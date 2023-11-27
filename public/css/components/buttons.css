@@ -1,0 +1,22 @@
+.btn {
+    border-radius: 2px;
+    padding: 1vh 1vw;
+    font-size: 2vh;
+    cursor: pointer;
+    transition: all 0.1s ease-out;
+}
+
+.btn-primary {
+    background-color: #344966;
+    color: white;
+}
+.btn-danger {
+    background-color: #663434;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: none;
+    color: #344966;
+    text-decoration: underline;
+}

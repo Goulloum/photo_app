@@ -3,3 +3,28 @@
     padding: 0 2vw;
     margin: 5vh 0;
 }
+
+.gallery-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 1vh;
+
+    height: 100%;
+}
+
+.gallery-actions > * {
+    margin: 0 1vw;
+}
+
+.image-container {
+    height: 5vh;
+    width: 10vw;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-container > img {
+    width: 100%;
+    object-fit: cover;
+}
