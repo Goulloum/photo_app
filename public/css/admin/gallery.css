@@ -1,21 +1,14 @@
-.gallery-table-container {
-    width: calc(100% - 4vw);
-    padding: 0 2vw;
-    margin: 5vh 0;
-}
-
 .gallery-actions {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    row-gap: 1vh;
 
     height: 100%;
 }
 
-.gallery-actions > * {
+/* .gallery-actions > * {
     margin: 0 1vw;
-}
+} */
 
 .image-container {
     height: 5vh;

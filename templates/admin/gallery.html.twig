@@ -1,7 +1,7 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/admin/gallery.css') }}" />
 {% endblock %} {% block body %}
-<div class="gallery-admin-container">
+<div class="gallery-admin-container main-container">
     {# LIST OF EXISTING GALLERY AND ACTIONS #}
 
     <div class="gallery-table-container">
@@ -48,7 +48,7 @@
                             href="{{
                                 path('app_gallery_edit', { id: gallery.id })
                             }}"
-                            class="btn btn-primary"
+                            class="btn btn-secondary"
                             >Modifier</a
                         >
                         <a
@@ -56,7 +56,7 @@
                             href="{{
                                 path('app_gallery_delete', { id: gallery.id })
                             }}"
-                            class="btn btn-danger"
+                            class="btn btn-minimal"
                             >Supprimer</a
                         >
                     </td>

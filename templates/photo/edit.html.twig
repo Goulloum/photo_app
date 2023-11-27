@@ -1,0 +1,24 @@
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/photo/edit.css') }}" />
+{% endblock %} {% block body %}
+<div class="edit-photo-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
+    <div class="form-title">Modifier une photo</div>
+    <div class="form-container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="image-container">
+        <img
+            src="{{ asset('imgs/' ~ photo.gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}"
+            alt="{{ photo.name }}"
+        />
+    </div>
+</div>
+
+{% endblock %}

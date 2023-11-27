@@ -1,13 +1,16 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/admin/show-gallery.css') }}" />
 {% endblock %} {% block body %}
-<div class="show-gallery-admin-container">
+<div class="show-gallery-admin-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
     <div class="gallery-header">
         <h1>{{ gallery.name }}</h1>
         <div class="gallery-actions">
             <a
                 href="{{ path('app_gallery_edit', { id: gallery.id }) }}"
-                class="btn btn-primary"
+                class="btn btn-secondary"
                 >Modifier</a
             >
             <a
@@ -18,7 +21,15 @@
             >
         </div>
     </div>
-    <div class="gallery-photos">
+    <div class="dates-container">
+        <div class="created-at">
+            Créé le {{ gallery.createdAt|date("d/m/Y \\à H:i:s ") }}
+        </div>
+        <div class="updated-at">
+            Mis à jour le {{ gallery.updatedAt|date("d/m/Y \\à H:i:s ") }}
+        </div>
+    </div>
+    <div class="gallery-photo-container">
         {% for photo in gallery.photos %}
         <div class="gallery-photo">
             <img
@@ -26,17 +37,17 @@
                 alt="{{ photo.name }}"
             />
             <div class="gallery-photo-actions">
-                {#<a
+                <a
                     href="{{ path('app_photo_edit', { id: photo.id }) }}"
-                    class="btn btn-primary"
+                    class="btn btn-secondary"
                     >Modifier</a
                 >
                 <a
                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')"
                     href="{{ path('app_photo_delete', { id: photo.id }) }}"
-                    class="btn btn-danger"
+                    class="btn btn-minimal"
                     >Supprimer</a
-                >#}
+                >
             </div>
         </div>
         {% endfor %}

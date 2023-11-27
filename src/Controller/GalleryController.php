@@ -158,6 +158,13 @@ class GalleryController extends AbstractController
     public function delete(EntityManagerInterface $entityManager, GalleryRepository $galleryRepository, $id): Response
     {
         $gallery = $galleryRepository->find($id);
+
+        $fileSystem = new Filesystem();
+        $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
+        if ($fileSystem->exists($gallery_directory)) {
+            $fileSystem->remove($gallery_directory);
+        }
+
         $entityManager->remove($gallery);
         $entityManager->flush();
         return $this->redirectToRoute('app_admin_gallery');
@@ -204,7 +211,7 @@ class GalleryController extends AbstractController
             $photo->setGallery($gallery);
             $entityManager->persist($photo);
             $entityManager->flush();
-            return $this->redirectToRoute('app_gallery_show', ['id' => $gallery->getId()]);
+            return $this->redirectToRoute('app_admin_gallery_show', ['id' => $gallery->getId()]);
         }
 
 

@@ -12,6 +12,7 @@
     overflow: hidden;
     width: 90%;
     position: relative;
+    margin: 3vh 0;
 }
 
 .gallery-container > img {

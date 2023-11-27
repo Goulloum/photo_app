@@ -1,7 +1,11 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/gallery/create_photo.css') }}" />
 {% endblock %} {% block body %}
-<div class="create-photo-gallery-container">
+<div class="create-photo-gallery-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
+    <div class="form-title">Ajouter une photo</div>
     <div class="form-container">
         {{ form_start(form) }}
 
@@ -12,13 +16,13 @@
         >
         <div class="file-name"></div>
         {{ form_widget(form.img) }}
-
+        {{ form_errors(form.img) }}
         {{ form_row(form.description) }}
 
         {{ form_row(form.location) }}
 
         {{ form_row(form.datePhoto) }}
-        <button type="submit" class="btn">Enregistrer</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
 
         {{ form_end(form) }}
     </div>

@@ -1,11 +1,3 @@
-.create-gallery-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .form-container {
     width: 100%;
     display: flex;
@@ -18,7 +10,7 @@
     height: 45vh;
     overflow: hidden;
     width: 90%;
-    position: relative;
+    padding: 0 5%;
     display: flex;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.089);
@@ -26,7 +18,7 @@
 }
 
 .image-container > img {
-    width: 100%;
+    width: 90%;
     object-fit: cover;
     height: fit-content;
     transform: translateY(-30%);
