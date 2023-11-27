@@ -1,44 +1,78 @@
-{% extends 'admin.base.html.twig' %}
-{% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('css/admin/gallery.css') }}">
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/admin/gallery.css') }}" />
+{% endblock %} {% block body %}
+<div class="gallery-admin-container">
+    {# LIST OF EXISTING GALLERY AND ACTIONS #}
+
+    <div class="gallery-table-container">
+        <table id="galleries" class="display">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Image de couverture</th>
+                    <th>Nombre de photos</th>
+                    <th>Date de création</th>
+                    <th>Date de mise à jour</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gallery in galleries %}
+                <tr>
+                    <td>{{ gallery.name }}</td>
+                    <td>
+                        {{ gallery.backgroundPath }}
+                    </td>
+                    <td>{{ gallery.photos | length }}</td>
+                    <td>{{ gallery.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ gallery.updatedAt|date('d/m/Y') }}</td>
+                    <td>
+                        <a
+                            href="{{
+                                path('app_gallery_edit', { id: gallery.id })
+                            }}"
+                            class="btn btn-primary"
+                            >Modifier</a
+                        >
+                        <a
+                            href="{{
+                                path('app_gallery_delete', { id: gallery.id })
+                            }}"
+                            class="btn btn-danger"
+                            >Supprimer</a
+                        >
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let table = new DataTable("#galleries", {
+        language: {
+            lengthMenu: "Afficher _MENU_ lignes par page",
+            zeroRecords: "Aucun résultat trouvé",
+            info: "_PAGE_ sur _PAGES_",
+            infoEmpty: "Aucun résultat trouvé",
+            paginate: {
+                first: "Première",
+                last: "Dernière",
+                next: "Suivant",
+                previous: "Précédent",
+            },
+            search: "Rechercher :",
+        },
+        dom: "Bfrtip",
+        buttons: [
+            {
+                text: "Ajouter",
+                action: function (e, dt, node, config) {
+                    document.location = "{{ path('app_gallery_create') }}";
+                },
+            },
+        ],
+    });
+</script>
 {% endblock %}
-
-{% block body %}
-	<div
-		class="gallery-admin-container">
-		{# LIST OF EXISTING GALLERY AND ACTIONS #}
-
-		<div class="gallery-table-container">
-			<table class="galleries">
-				<thead>
-					<tr>
-						<th>Nom</th>
-						<th>Image de couverture</th>
-						<th>Nombre de photos</th>
-						<th>Date de création</th>
-						<th>Date de mise à jour</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for gallery in galleries %}
-						<tr>
-							<td>{{ gallery.name }}</td>
-							<td>
-								{{ gallery.backgroundPath}}
-							</td>
-							<td>{{ gallery.photos|length }}</td>
-							<td>{{ gallery.createdAt|date('d/m/Y') }}</td>
-							<td>{{ gallery.updatedAt|date('d/m/Y') }}</td>
-							<td>
-								{# <a href="{{ path('admin_gallery_edit', {'id': gallery.id}) }}" class="btn btn-primary">Modifier</a>
-																																					                        <a href="{{ path('admin_gallery_delete', {'id': gallery.id}) }}" class="btn btn-danger">Supprimer</a> #}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</tbody>
-		</table>
-	</div>
-
-
-</div>{% endblock %}
