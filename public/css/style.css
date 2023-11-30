@@ -34,7 +34,7 @@ h1 {
 }
 
 .navbar-title {
-    font-size: 4vh;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
     font-family: "Montserrat", sans-serif;
     font-weight: 900;
 }

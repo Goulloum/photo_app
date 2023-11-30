@@ -7,9 +7,9 @@
 }
 
 .image-container {
-    height: 45vh;
+    height: 45vw;
     overflow: hidden;
-    width: 90%;
+    width: 90vw;
     padding: 0 5%;
     display: flex;
     justify-content: center;

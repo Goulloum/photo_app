@@ -1,17 +1,105 @@
-.photos-container {
+.gallery-container {
+    width: calc(100% - 6vw);
+    height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
     align-items: center;
-    width: fit-content;
-    margin: 5vw 0;
+    flex-direction: column;
+    padding: 3vw;
+}
+.gallery-title {
+    font-size: clamp(2rem, 2vh, 2.5rem);
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    width: 100%;
+}
+.grid-container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    column-gap: 1vw;
+    row-gap: 1vw;
+    margin: 3vh 0;
+}
+.grid-container > .photo-container {
+    flex-grow: 1;
+    transition: all 0.2s ease-in-out;
 }
 
-.photo-container {
-    margin: 0 2vw;
-}
-
-.photo-container > img {
-    width: 60vh;
+.grid-container > .photo-container > .photo {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+.photo-modal-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-modal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.details-photo {
+    width: 20%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0d1821;
+}
+
+.controls {
+    position: absolute;
+    top: 3vh;
+    right: 3vw;
+    background-color: #f0f4ef;
+    padding: 0.5vh 1vw;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 3px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+.controls:hover {
+    opacity: 1;
+}
+.controls > span {
+    font-size: 2rem;
+    margin: 0 0.2vw;
+    cursor: pointer;
+}
+
+.photo-modal > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+@media screen and (min-width: 768px) {
+    .grid-container > .photo-container > .photo {
+        height: 45vh;
+    }
+    .grid-container > .photo-container {
+        flex-grow: 0;
+    }
 }
