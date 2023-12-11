@@ -30,6 +30,7 @@ class PhotoController extends AbstractController
             $photo->setUpdatedAt(new \DateTimeImmutable());
             $entityManagerInterface->persist($photo);
             $entityManagerInterface->flush();
+            $this->addFlash('success', 'Photo modifiée avec succès !');
             return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
         }
 
@@ -54,6 +55,7 @@ class PhotoController extends AbstractController
 
         $entityManagerInterface->remove($photo);
         $entityManagerInterface->flush();
+        $this->addFlash('success', 'Photo supprimée avec succès !');
         return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
     }
 }
