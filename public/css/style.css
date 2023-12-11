@@ -169,7 +169,9 @@ label {
     display: inline-block;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     margin: 0.5vh 0;
     width: calc(100% - 2vw);
     padding: 0.5vh 1vw;

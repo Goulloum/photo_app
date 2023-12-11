@@ -31,6 +31,11 @@
     const xOffset = document.querySelector("#gallery_backgroundXOffset");
     const yOffset = document.querySelector("#gallery_backgroundYOffset");
 
+    $(document).ready(function () {
+        imagePreview.style.transform = "translateX(" + xOffset.value + "%) ";
+        imagePreview.style.transform = "translateY(" + yOffset.value + "%) ";
+    });
+
     input.addEventListener("change", () => {
         const file = input.files[0];
         const reader = new FileReader();
