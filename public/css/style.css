@@ -242,3 +242,16 @@ textarea {
         display: flex;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1c1c1e;
+        color: #fefefe;
+    }
+    a {
+        color: #5fa9ee;
+    }
+    img {
+        filter: grayscale(20%);
+    }
+}
