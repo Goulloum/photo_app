@@ -9,6 +9,9 @@
 /vendor/
 .env.*
 .env
+
+public/imgs/*
+!public/imgs/noimage.jpg
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

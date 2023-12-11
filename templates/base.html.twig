@@ -144,6 +144,19 @@
                     }
                 });
             });
+            $("form")
+                .find("select, input, textarea")
+                .each(function () {
+                    if ($(this).attr("required") == "required") {
+                        $label = $("label[for=" + $(this).attr("id") + "]");
+
+                        if ($label.find(".required-field").length == 0) {
+                            $label.append(
+                                '<span class="required-field">*</span>'
+                            );
+                        }
+                    }
+                });
         </script>
     </body>
 </html>

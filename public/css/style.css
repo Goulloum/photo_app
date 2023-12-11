@@ -217,6 +217,23 @@ button[type="submit"] {
     color: white;
 }
 
+textarea {
+    margin: 0.5vh 0;
+    width: calc(100% - 2vw);
+    padding: 0.5vh 1vw;
+    font-size: 2vh;
+    border: 1px solid #000;
+    border-bottom: 1px solid #000;
+    outline: none;
+    border-radius: 3px;
+    height: 10vh;
+    resize: none;
+}
+
+.required-field {
+    color: #721c24;
+}
+
 @media screen and (min-width: 480px) {
     .navbar-container-mobile {
         display: none;

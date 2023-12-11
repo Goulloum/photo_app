@@ -1,5 +1,9 @@
-{% extends 'base.html.twig' %} {% block body %}
+{% extends 'base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/contact/index.css') }}" />
+{% endblock %} {% block body %}
 <div class="contact-container">
+    {% include "components/flashes.html.twig" %}
+    <h1 class="contact-title">Contact</h1>
     <div class="form-container">
         {{ form_start(form) }}
         {{ form_row(form.nom) }}
@@ -7,12 +11,9 @@
         {{ form_row(form.email) }}
         {{ form_row(form.subject) }}
         {{ form_row(form.message) }}
-        <input
-            type="hidden"
-            name="csrf_token"
-            value="{{ csrf_token('form') }}"
-        />
+
         <button type="submit">Envoyer</button>
+        {{ form_end(form) }}
     </div>
 </div>
 
