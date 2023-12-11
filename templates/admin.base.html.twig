@@ -67,6 +67,9 @@
                 >
             </div>
         </nav>
-        <div class="content-container">{% block body %}{% endblock %}</div>
+        <div class="content-container">
+            {% include "components/flashes.twig.html" %}{% block body %}{%
+            endblock %}
+        </div>
     </body>
 </html>
