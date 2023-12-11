@@ -27,9 +27,11 @@
             </div>
             <img src="" alt="" />
             <div class="details-photo">
-                <div class="photo-title"></div>
-                <div class="date-photo"></div>
-                <div class="location-photo"></div>
+                <h2 class="photo-title"></h2>
+                <div class="date-location-container">
+                    <div class="date-photo"></div>
+                    <div class="location-photo"></div>
+                </div>
                 <p class="description-photo"></p>
             </div>
         </div>
@@ -48,25 +50,19 @@
     },
     {% endfor %}]
 
+    let currentPhotoId = 0
+    let isInfoOpen = false
     $(document).ready(() => {
-        $('.photo-modal-container').hide()
-        $('.details-photo').hide()
+        closeModal()
     })
 
     $('.photo-container').click(() => {
-        let photoId = $(event.target).attr('photo-id')
-        let photo = photos.find((photo) => photo.id == photoId)
-        $('.photo-modal img').attr('src', photo.path)
-        $('.photo-modal img').attr('attr', photo.name)
-        $('.photo-modal .photo-title').text(photo.name)
-        $('.photo-modal .date-photo').text(photo.date)
-        $('.photo-modal .location-photo').text(photo.location)
-        $('.photo-modal .description-photo').text(photo.description)
+        currentPhotoId = $(event.target).attr('photo-id')
+        openModal(currentPhotoId)
 
-        $('.photo-modal-container').show()
     })
     $('.controls .close').click(() => {
-        $('.photo-modal-container').hide()
+        closeModal()
     })
     $('.controls .fullscreen').click(function() {
         if(document.fullscreenElement) {
@@ -75,12 +71,73 @@
         } else {
             $('.photo-modal-container')[0].requestFullscreen()
             $(this).html('close_fullscreen')
-            console.log($(this).html())
+            closeInfo()
+
         }
     })
     $('.controls .info').click(function() {
-        $(this).show();
+        if(!isInfoOpen) {
+            openInfo()
+        } else {
+            closeInfo()
+        }
     })
+
+    $(document).on('keydown', function(event) {
+        if(event.key == 'Escape') {
+            closeModal()
+        }
+        if(event.key == 'ArrowLeft' && $('.photo-modal-container').is(':visible')) {
+            let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+            if(currentIndex == 0) {
+                currentPhotoId = photos[photos.length - 1].id
+            } else {
+                currentPhotoId = photos[currentIndex - 1].id
+            }
+            openModal(currentPhotoId)
+        }
+
+        if(event.key == 'ArrowRight' && $('.photo-modal-container').is(':visible')) {
+            let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+            if(currentIndex == photos.length - 1) {
+                currentPhotoId = photos[0].id
+            } else {
+                currentPhotoId = photos[currentIndex + 1].id
+            }
+            openModal(currentPhotoId)
+        }
+    })
+
+    function openModal(photoId) {
+        let photo = photos.find((photo) => photo.id == photoId)
+        $('.photo-modal img').attr('src', photo.path)
+        $('.photo-modal img').attr('attr', photo.name)
+        $('.photo-modal .photo-title').text(photo.name)
+        $('.photo-modal .date-photo').text(photo.date)
+        $('.photo-modal .location-photo').text(photo.location)
+        $('.photo-modal .description-photo').text(photo.description)
+        $('.photo-modal-container').show()
+    }
+
+    function closeModal(){
+        $('.photo-modal-container').hide()
+        document.exitFullscreen()
+        $(".controls .fullscreen").html('fullscreen')
+        closeInfo()
+
+    }
+
+    function openInfo(){
+        isInfoOpen = true
+        $('.details-photo').addClass('details-photo-active')
+        $('.photo-modal img').addClass('photo-modal-minimized')
+    }
+
+    function closeInfo(){
+        isInfoOpen = false
+        $('.details-photo').removeClass('details-photo-active')
+        $('.photo-modal img').removeClass('photo-modal-minimized')
+    }
 </script>
 
 {% endblock %}

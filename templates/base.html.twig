@@ -35,7 +35,8 @@
     </head>
 
     <body>
-        <nav class="navbar-container">
+        <!-- MENU DESKTOP -->
+        <nav class="navbar-container-desktop">
             <h1 class="navbar-title">
                 <a href="{{ path('app_gallery') }}">RICHARD<br />GUILLEMIN</a>
             </h1>
@@ -73,7 +74,76 @@
                 </li>
             </ul>
         </nav>
+        <!-- MENU MOBILE -->
+        <nav class="navbar-container-mobile">
+            <div class="hamburger">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </div>
+            <div class="navbar-content">
+                <h1 class="navbar-title">
+                    <a href="{{ path('app_gallery') }}"
+                        >RICHARD<br />GUILLEMIN</a
+                    >
+                </h1>
+                <ul>
+                    <li>
+                        <span class="material-symbols-outlined"> image </span>
+                        <a
+                            style="font-weight: {{
+                                app.request.pathinfo == '/'
+                                    ? ' bold'
+                                    : ' inherit'
+                            }}"
+                            href="{{ path('app_gallery') }}"
+                            >Galleries</a
+                        >
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined"> person </span>
+                        <a
+                            style="font-weight: {{
+                                app.request.pathinfo == '/about'
+                                    ? ' bold'
+                                    : ' inherit'
+                            }}"
+                            href=""
+                            >À propos</a
+                        >
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined"> mail </span>
+                        <a
+                            style="font-weight: {{
+                                app.request.pathinfo == '/contact'
+                                    ? ' bold'
+                                    : ' inherit'
+                            }}"
+                            href=""
+                            >Contact</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
         {% block body %}{% endblock %}
+        <script>
+            let isMenuOpen = false;
+            $(document).ready(() => {
+                $(".hamburger").click(() => {
+                    if (isMenuOpen) {
+                        $(".hamburger").removeClass("hamburger-active");
+                        $(".navbar-content").css("right", "-100%");
+                        isMenuOpen = false;
+                    } else {
+                        $(".hamburger").addClass("hamburger-active");
+                        $(".navbar-content").css("right", "0");
+                        isMenuOpen = true;
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
