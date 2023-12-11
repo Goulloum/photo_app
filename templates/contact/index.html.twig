@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="contact-container">
+    <div class="form-container">
+        {{ form_start(form) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.subject) }}
+        {{ form_row(form.message) }}
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token('form') }}"
+        />
+        <button type="submit">Envoyer</button>
+    </div>
+</div>
+
+{% endblock %}
