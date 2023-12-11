@@ -1,0 +1,13 @@
+.image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.image-container > img {
+    max-width: 90%;
+    object-fit: contain;
+    height: fit-content;
+}

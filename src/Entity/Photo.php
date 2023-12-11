@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PhotoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 class Photo
@@ -14,8 +15,11 @@ class Photo
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $path = null;
@@ -51,7 +55,7 @@ class Photo
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
@@ -63,7 +67,7 @@ class Photo
         return $this->path;
     }
 
-    public function setPath(string $path): static
+    public function setPath(?string $path): static
     {
         $this->path = $path;
 

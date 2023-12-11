@@ -1,27 +1,149 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}Richard GUILLEMIN
-			{% endblock %}
-		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Richard GUILLEMIN {% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	</head>
-	<body>
-		<nav class="navbar-container">
-			<h1 class="navbar-title">RICHARD<br/>GUILLEMIN</h1>
-			<ul>
-				<li><a style="font-weight: {{app.request.pathinfo == '/' ? " bold": " inherit"}}"href="{{path('app_gallery')}}">Galleries</a></li>
-				<li><a style="font-weight: {{app.request.pathinfo == '/about' ? " bold": " inherit"}}" href="">À propos</a></li>
-				<li><a style="font-weight: {{app.request.pathinfo == '/contact' ? " bold": " inherit"}}" href="">Contact</a></li>
-			</ul>
-		</nav>
-		{% block body %}{% endblock %}
-	</body>
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"
+        />
+        {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock
+        %}
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+        <script
+            type="text/javascript"
+            src="//code.jquery.com/jquery-1.11.0.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="//code.jquery.com/jquery-migrate-1.2.1.min.js"
+        ></script>
+    </head>
+
+    <body>
+        <!-- MENU DESKTOP -->
+        <nav class="navbar-container-desktop">
+            <h1 class="navbar-title">
+                <a href="{{ path('app_gallery') }}">RICHARD<br />GUILLEMIN</a>
+            </h1>
+            <ul>
+                <li>
+                    <a
+                        style="font-weight: {{
+                            app.request.pathinfo == '/' ? ' bold' : ' inherit'
+                        }}"
+                        href="{{ path('app_gallery') }}"
+                        >Galleries</a
+                    >
+                </li>
+                <li>
+                    <a
+                        style="font-weight: {{
+                            app.request.pathinfo == '/about'
+                                ? ' bold'
+                                : ' inherit'
+                        }}"
+                        href=""
+                        >À propos</a
+                    >
+                </li>
+                <li>
+                    <a
+                        style="font-weight: {{
+                            app.request.pathinfo == '/contact'
+                                ? ' bold'
+                                : ' inherit'
+                        }}"
+                        href=""
+                        >Contact</a
+                    >
+                </li>
+            </ul>
+        </nav>
+        <!-- MENU MOBILE -->
+        <nav class="navbar-container-mobile">
+            <div class="hamburger">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </div>
+            <div class="navbar-content">
+                <h1 class="navbar-title">
+                    <a href="{{ path('app_gallery') }}"
+                        >RICHARD<br />GUILLEMIN</a
+                    >
+                </h1>
+                <ul>
+                    <li>
+                        <span class="material-symbols-outlined"> image </span>
+                        <a
+                            style="font-weight: {{
+                                app.request.pathinfo == '/'
+                                    ? ' bold'
+                                    : ' inherit'
+                            }}"
+                            href="{{ path('app_gallery') }}"
+                            >Galleries</a
+                        >
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined"> person </span>
+                        <a
+                            style="font-weight: {{
+                                app.request.pathinfo == '/about'
+                                    ? ' bold'
+                                    : ' inherit'
+                            }}"
+                            href=""
+                            >À propos</a
+                        >
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined"> mail </span>
+                        <a
+                            style="font-weight: {{
+                                app.request.pathinfo == '/contact'
+                                    ? ' bold'
+                                    : ' inherit'
+                            }}"
+                            href=""
+                            >Contact</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        {% block body %}{% endblock %}
+        <script>
+            let isMenuOpen = false;
+            $(document).ready(() => {
+                $(".hamburger").click(() => {
+                    if (isMenuOpen) {
+                        $(".hamburger").removeClass("hamburger-active");
+                        $(".navbar-content").css("right", "-100%");
+                        isMenuOpen = false;
+                    } else {
+                        $(".hamburger").addClass("hamburger-active");
+                        $(".navbar-content").css("right", "0");
+                        isMenuOpen = true;
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>

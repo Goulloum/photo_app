@@ -1,7 +1,7 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/admin/gallery.css') }}" />
 {% endblock %} {% block body %}
-<div class="gallery-admin-container">
+<div class="gallery-admin-container main-container">
     {# LIST OF EXISTING GALLERY AND ACTIONS #}
 
     <div class="gallery-table-container">
@@ -19,26 +19,44 @@
             <tbody>
                 {% for gallery in galleries %}
                 <tr>
-                    <td>{{ gallery.name }}</td>
                     <td>
-                        {{ gallery.backgroundPath }}
+                        <a
+                            href="{{
+                                path('app_admin_gallery_show', {
+                                    id: gallery.id
+                                })
+                            }}"
+                            >{{ gallery.name }}</a
+                        >
+                    </td>
+                    <td>
+                        <div class="image-container">
+                            <img
+                                style="transform: translate({{
+                                    gallery.backgroundXOffset
+                                }}%, {{ gallery.backgroundYOffset }}%)"
+                                src="{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ gallery.backgroundPath) }}"
+                                class="image_preview"
+                            />
+                        </div>
                     </td>
                     <td>{{ gallery.photos | length }}</td>
                     <td>{{ gallery.createdAt|date('d/m/Y') }}</td>
                     <td>{{ gallery.updatedAt|date('d/m/Y') }}</td>
-                    <td>
+                    <td class="gallery-actions">
                         <a
                             href="{{
                                 path('app_gallery_edit', { id: gallery.id })
                             }}"
-                            class="btn btn-primary"
+                            class="btn btn-secondary"
                             >Modifier</a
                         >
                         <a
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette galerie ?')"
                             href="{{
                                 path('app_gallery_delete', { id: gallery.id })
                             }}"
-                            class="btn btn-danger"
+                            class="btn btn-minimal"
                             >Supprimer</a
                         >
                     </td>

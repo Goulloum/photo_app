@@ -1,7 +1,11 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/gallery/create.css') }}" />
 {% endblock %} {% block body %}
-<div class="create-gallery-container">
+<div class="create-gallery-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
+    <div class="form-title">Modifier une gallerie</div>
     <div class="form-container">
         {{ form_start(form) }}
         {{ form_row(form.name) }}
@@ -11,13 +15,22 @@
         >
         <div class="file-name"></div>
         {{ form_widget(form.background) }}
+        {{ form_errors(form.background) }}
         {{ form_row(form.backgroundXOffset) }}
         {{ form_row(form.backgroundYOffset) }}
         <button type="submit" class="btn">Enregistrer</button>
         {{ form_end(form) }}
     </div>
     <div class="image-container">
+        {% if gallery.backgroundPath %}
+        <img
+            src="{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ gallery.backgroundPath) }}"
+            class="image_preview"
+        />
+        {% else %}
         <img src="{{ asset('imgs/noimage.jpg') }}" class="image_preview" />
+
+        {% endif %}
     </div>
 </div>
 

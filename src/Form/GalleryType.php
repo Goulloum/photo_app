@@ -18,7 +18,7 @@ class GalleryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['required' => true, 'label' => 'Nom'])
-            ->add('background', FileType::class, ['mapped' => false, 'required' => true, 'label' => 'Image de couverture', 'constraints' => [
+            ->add('background', FileType::class, ['mapped' => false, 'required' => false, 'label' => 'Image de couverture', 'constraints' => [
                 new File([
                     'mimeTypes' => [
                         'image/png',

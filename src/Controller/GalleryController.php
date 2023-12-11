@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Gallery;
+use App\Entity\Photo;
 use App\Form\GalleryType;
+use App\Form\PhotoType;
 use App\Repository\GalleryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +30,7 @@ class GalleryController extends AbstractController
         ]);
     }
 
-    #[Route('/gallery/{id}', name: 'app_gallery_show')]
+    #[Route('/gallery/{id}', name: 'app_gallery_show', requirements: ['id' => '\d+'])]
     public function show(GalleryRepository $galleryRepository, $id): Response
     {
         $gallery = $galleryRepository->find($id);
@@ -39,7 +41,7 @@ class GalleryController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/gallery/create', name: 'app_gallery_create')]
+    #[Route('/gallery/create', name: 'app_gallery_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
 
@@ -53,13 +55,13 @@ class GalleryController extends AbstractController
             $gallery->setUpdatedAt(new \DateTimeImmutable());
             $image = $form->get('background')->getData();
             $fileSystem = new Filesystem();
+            $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
             if ($image) {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
 
-                $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
                 if ($fileSystem->exists($gallery_directory)) {
                     throw new \Exception('Une gallerie existe déjà avec ce nom !');
                 }
@@ -87,44 +89,59 @@ class GalleryController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/gallery/edit/{id}', name: 'app_gallery_edit')]
+    #[Route('/gallery/edit/{id}', name: 'app_gallery_edit')]
     public function edit(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, GalleryRepository $galleryRepository, $id): Response
     {
         $fileSystem = new Filesystem();
-
+        //Get current gallery and pass it to the form
         $gallery = $galleryRepository->find($id);
+        $oldGalleryName = $gallery->getName();
         $form = $this->createForm(GalleryType::class, $gallery);
 
-        $backgroundImage = new File($this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName())) . '/' . $gallery->getBackgroundPath());
+
+
+
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        //Form submission
+        if ($form->isSubmitted() && $form->isValid()) {
             $gallery = $form->getData();
             $gallery->setUpdatedAt(new \DateTimeImmutable());
             $image = $form->get('background')->getData();
+            //Rename gallery directory if name has changed
+            if ($oldGalleryName !== $gallery->getName()) {
+                $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($oldGalleryName));
+                $new_gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
+                $fileSystem->rename($gallery_directory, $new_gallery_directory);
+            }
+
+            $new_gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
+
+            //Upload new image if there is one
             if ($image) {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
 
-                $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
-                if ($fileSystem->exists($gallery_directory)) {
-                    throw new \Exception('Une gallerie existe déjà avec ce nom !');
+                //Delete old image if there is one
+                if ($gallery->getBackgroundPath() != null && $fileSystem->exists($new_gallery_directory . '/' . $gallery->getBackgroundPath())) {
+                    $fileSystem->remove($new_gallery_directory . '/' . $gallery->getBackgroundPath());
                 }
-
+                //Upload new image
                 try {
-                    $fileSystem->mkdir($gallery_directory);
                     $image->move(
-                        $gallery_directory,
+                        $new_gallery_directory,
                         $newFilename
                     );
                 } catch (FileException $e) {
                     throw new \Exception('Une erreur est survenue lors de l\'upload de l\'image !');
                 }
-
                 $gallery->setBackgroundPath($newFilename);
+            } else {
+                $gallery->setBackgroundPath($gallery->getBackgroundPath());
             }
+
             $entityManager->persist($gallery);
             $entityManager->flush();
             return $this->redirectToRoute('app_admin_gallery');
@@ -133,16 +150,76 @@ class GalleryController extends AbstractController
         return $this->render('gallery/edit.html.twig', [
             'controller_name' => 'GalleryController',
             'form' => $form->createView(),
-            'backgroundImage' => $backgroundImage
+            'gallery' => $gallery
         ]);
     }
 
-    #[Route('/admin/gallery/delete/{id}', name: 'app_gallery_delete')]
+    #[Route('/gallery/delete/{id}', name: 'app_gallery_delete')]
     public function delete(EntityManagerInterface $entityManager, GalleryRepository $galleryRepository, $id): Response
     {
         $gallery = $galleryRepository->find($id);
+
+        $fileSystem = new Filesystem();
+        $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
+        if ($fileSystem->exists($gallery_directory)) {
+            $fileSystem->remove($gallery_directory);
+        }
+
         $entityManager->remove($gallery);
         $entityManager->flush();
         return $this->redirectToRoute('app_admin_gallery');
+    }
+
+    #[Route('/gallery/{id}/photo/create', name: 'app_gallery_photo_create')]
+    public function createPhoto(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, GalleryRepository $galleryRepository, $id): Response
+    {
+        $photo = new Photo();
+        $form = $this->createForm(PhotoType::class, $photo);
+        $gallery = $galleryRepository->find($id);
+        $form->remove('gallery');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form->getData();
+            $photo->setCreatedAt(new \DateTimeImmutable());
+            $photo->setUpdatedAt(new \DateTimeImmutable());
+            $image = $form->get('img')->getData();
+            $fileSystem = new Filesystem();
+            $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
+            if (!$image) {
+                throw new \Exception('Vous devez ajouter une image !');
+            }
+            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+
+            if (!$fileSystem->exists($gallery_directory)) {
+                throw new \Exception('Aucune gallerie n\'existe avec ce nom !');
+            }
+
+            try {
+                $image->move(
+                    $gallery_directory,
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                throw new \Exception('Une erreur est survenue lors de l\'upload de l\'image !');
+            }
+
+            $photo->setPath($newFilename);
+
+            $photo->setGallery($gallery);
+            $entityManager->persist($photo);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_admin_gallery_show', ['id' => $gallery->getId()]);
+        }
+
+
+
+
+        return $this->render('gallery/create_photo.html.twig', [
+            'controller_name' => 'GalleryController',
+            'form' => $form->createView()
+        ]);
     }
 }

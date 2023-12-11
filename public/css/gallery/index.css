@@ -8,10 +8,11 @@
 }
 
 .gallery-container {
-    height: 45vh;
+    height: 30vw;
     overflow: hidden;
-    width: 90%;
+    width: 90vw;
     position: relative;
+    margin: 3vh 0;
 }
 
 .gallery-container > img {
@@ -36,7 +37,7 @@
 }
 
 .gallery-title > h2 {
-    font-size: 4vh;
+    font-size: clamp(1.3rem, 2vw, 2.5rem);
     font-family: "Montserrat", sans-serif;
     font-weight: 200;
     color: #f0f4ef;

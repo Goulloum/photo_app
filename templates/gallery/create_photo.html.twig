@@ -1,0 +1,51 @@
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/gallery/create_photo.css') }}" />
+{% endblock %} {% block body %}
+<div class="create-photo-gallery-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
+    <div class="form-title">Ajouter une photo</div>
+    <div class="form-container">
+        {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+        <label>Photo</label>
+        <label for="{{ form.img.vars.id }}" class="required file-label"
+            >Choississez un fichier</label
+        >
+        <div class="file-name"></div>
+        {{ form_widget(form.img) }}
+        {{ form_errors(form.img) }}
+        {{ form_row(form.description) }}
+
+        {{ form_row(form.location) }}
+
+        {{ form_row(form.datePhoto) }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="image-container">
+        <img src="{{ asset('imgs/noimage.jpg') }}" class="image_preview" />
+    </div>
+</div>
+
+<script>
+    const imagePreview = document.querySelector(".image_preview");
+    const input = document.querySelector("#{{ form.img.vars.id }}");
+    const fileName = document.querySelector(".file-name");
+
+    input.addEventListener("change", () => {
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", () => {
+            imagePreview.src = reader.result;
+        });
+
+        reader.readAsDataURL(file);
+        fileName.innerHTML = file.name;
+    });
+</script>
+{% endblock %}

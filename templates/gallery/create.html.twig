@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/gallery/create.css') }}" />
 {% endblock %} {% block body %}
 <div class="create-gallery-container">
+    <div class="form-title">Ajouter une gallerie</div>
     <div class="form-container">
         {{ form_start(form) }}
         {{ form_row(form.name) }}
@@ -25,10 +26,15 @@
 
 <script>
     const imagePreview = document.querySelector(".image_preview");
-    const input = document.querySelector("#gallery_backgroundPath");
+    const input = document.querySelector("#gallery_background");
     const fileName = document.querySelector(".file-name");
     const xOffset = document.querySelector("#gallery_backgroundXOffset");
     const yOffset = document.querySelector("#gallery_backgroundYOffset");
+
+    $(document).ready(function () {
+        imagePreview.style.transform = "translateX(" + xOffset.value + "%) ";
+        imagePreview.style.transform = "translateY(" + yOffset.value + "%) ";
+    });
 
     input.addEventListener("change", () => {
         const file = input.files[0];

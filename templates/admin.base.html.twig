@@ -1,35 +1,72 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}Richard GUILLEMIN (Admin)
-			{% endblock %}
-		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="{{ asset('css/admin.style.css') }}">
-		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Richard GUILLEMIN (Admin) {% endblock %}</title>
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"
+        />
+        {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock
+        %}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-		<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/r-2.5.0/datatables.min.css" rel="stylesheet">
-		<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/r-2.5.0/datatables.min.js"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="{{ asset('css/admin.style.css') }}" />
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+        ></script>
 
-	</head>
-	<body>
-		<nav class="navbar-container">
-			<ul>
-				<li class="{{app.request.pathinfo == '/admin' ? "selected": ""}}">
-					<a href="{{path('app_admin')}}">Tableau de bord</a>
-				</li>
-				<li class="{{app.request.pathinfo == '/admin/gallery' ? "selected": ""}}">
-					<a href="{{path('app_admin_gallery')}}">Édition gallerie</a>
-				</li>
-				{# <li><a style="font-weight: {{app.request.pathinfo == '/contact' ? " bold": " inherit"}}" href="">Contact</a></li> #}
-			</ul>
-		</nav>
-		<div class="content-container"> {% block body %}{% endblock %}
-			</div>
-		</body>
-	</html>
+        <link
+            href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/r-2.5.0/datatables.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/r-2.5.0/datatables.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="{{ asset('css/components/buttons.css') }}"
+        />
+    </head>
+    <body>
+        <nav class="navbar-container">
+            <ul>
+                <li
+                    class="{{
+                        app.request.pathinfo == '/admin/gallery'
+                            ? 'selected'
+                            : ''
+                    }}"
+                >
+                    <a href="{{ path('app_admin_gallery') }}"
+                        >Édition gallerie</a
+                    >
+                </li>
+                {#
+                <li>
+                    <a
+                        style="font-weight: {{
+                            app.request.pathinfo == '/contact'
+                                ? ' bold'
+                                : ' inherit'
+                        }}"
+                        href=""
+                        >Contact</a
+                    >
+                </li>
+                #}
+            </ul>
+            <div class="bottom-navbar">
+                <a href="{{ path('app_gallery') }}" class="btn btn-primary"
+                    >Retour au site</a
+                >
+            </div>
+        </nav>
+        <div class="content-container">{% block body %}{% endblock %}</div>
+    </body>
+</html>

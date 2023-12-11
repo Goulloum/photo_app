@@ -1,7 +1,143 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/gallery/show.css') }}" />
+{% endblock %} {% block body %}
+<div class="gallery-container">
+    <h1 class="gallery-title">{{ gallery.name }}</h1>
+    <div class="grid-container">
+        {% for photo in gallery.photos %}
+        <div class="photo-container">
+            <img
+                src="{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}"
+                alt="{{ photo.name }}"
+                class="photo"
+                photo-id="{{ photo.id }}"
+            />
+        </div>
+        {% endfor %}
+    </div>
+    <div class="photo-modal-container">
+        <div class="photo-modal">
+            <div class="controls">
+                <span class="material-symbols-outlined info"> info </span>
+                <span class="material-symbols-outlined fullscreen">
+                    fullscreen
+                </span>
 
-{% block stylesheets %}
-	<link rel="stylesheet" href="{{asset('css/gallery/index.css')}}">
+                <span class="material-symbols-outlined close"> close </span>
+            </div>
+            <img src="" alt="" />
+            <div class="details-photo">
+                <h2 class="photo-title"></h2>
+                <div class="date-location-container">
+                    <div class="date-photo"></div>
+                    <div class="location-photo"></div>
+                </div>
+                <p class="description-photo"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let photos = [{% for photo in gallery.photos %} {
+        id: {{ photo.id }},
+        name: "{{ photo.name }}",
+        path: "{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}",
+        date: "{{ photo.datePhoto|date('d/m/Y') }}",
+        location: "{{ photo.location }}",
+        description: "{{ photo.description|escape('js') }}"
+    },
+    {% endfor %}]
+
+    let currentPhotoId = 0
+    let isInfoOpen = false
+    $(document).ready(() => {
+        closeModal()
+    })
+
+    $('.photo-container').click(() => {
+        currentPhotoId = $(event.target).attr('photo-id')
+        openModal(currentPhotoId)
+
+    })
+    $('.controls .close').click(() => {
+        closeModal()
+    })
+    $('.controls .fullscreen').click(function() {
+        if(document.fullscreenElement) {
+            document.exitFullscreen()
+            $(this).html('fullscreen')
+        } else {
+            $('.photo-modal-container')[0].requestFullscreen()
+            $(this).html('close_fullscreen')
+            closeInfo()
+
+        }
+    })
+    $('.controls .info').click(function() {
+        if(!isInfoOpen) {
+            openInfo()
+        } else {
+            closeInfo()
+        }
+    })
+
+    $(document).on('keydown', function(event) {
+        if(event.key == 'Escape') {
+            closeModal()
+        }
+        if(event.key == 'ArrowLeft' && $('.photo-modal-container').is(':visible')) {
+            let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+            if(currentIndex == 0) {
+                currentPhotoId = photos[photos.length - 1].id
+            } else {
+                currentPhotoId = photos[currentIndex - 1].id
+            }
+            openModal(currentPhotoId)
+        }
+
+        if(event.key == 'ArrowRight' && $('.photo-modal-container').is(':visible')) {
+            let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+            if(currentIndex == photos.length - 1) {
+                currentPhotoId = photos[0].id
+            } else {
+                currentPhotoId = photos[currentIndex + 1].id
+            }
+            openModal(currentPhotoId)
+        }
+    })
+
+    function openModal(photoId) {
+        let photo = photos.find((photo) => photo.id == photoId)
+        $('.photo-modal img').attr('src', photo.path)
+        $('.photo-modal img').attr('attr', photo.name)
+        $('.photo-modal .photo-title').text(photo.name)
+        $('.photo-modal .date-photo').text(photo.date)
+        $('.photo-modal .location-photo').text(photo.location)
+        $('.photo-modal .description-photo').text(photo.description)
+        $('.photo-modal-container').show()
+    }
+
+    function closeModal(){
+        $('.photo-modal-container').hide()
+        document.exitFullscreen()
+        $(".controls .fullscreen").html('fullscreen')
+        closeInfo()
+
+    }
+
+    function openInfo(){
+        isInfoOpen = true
+        $('.details-photo').addClass('details-photo-active')
+        $('.photo-modal img').addClass('photo-modal-minimized')
+    }
+
+    function closeInfo(){
+        isInfoOpen = false
+        $('.details-photo').removeClass('details-photo-active')
+        $('.photo-modal img').removeClass('photo-modal-minimized')
+    }
+</script>
+
 {% endblock %}
-
-{% block body %}{% endblock %}
