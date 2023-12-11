@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -63,7 +65,8 @@ class GalleryController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
 
                 if ($fileSystem->exists($gallery_directory)) {
-                    throw new \Exception('Une gallerie existe déjà avec ce nom !');
+                    $this->addFlash('danger', 'Une gallerie existe déjà avec le nom ' . $gallery->getName() . ' !');
+                    return $this->redirectToRoute('app_admin_gallery');
                 }
 
                 try {
@@ -73,14 +76,16 @@ class GalleryController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    throw new \Exception('Une erreur est survenue lors de l\'upload de l\'image !');
+                    $this->addFlash('danger', 'Une erreur est survenue lors de l\'upload de l\'image !');
+                    return $this->redirectToRoute('app_admin_gallery');
                 }
 
                 $gallery->setBackgroundPath($newFilename);
             }
             $entityManager->persist($gallery);
             $entityManager->flush();
-            return $this->redirectToRoute('app_admin_gallery');
+            $this->addFlash('success', 'La gallerie a bien été créée !');
+            return $this->redirectToRoute('app_admin_gallery_show', ['id' => $gallery->getId()]);
         }
 
         return $this->render('gallery/create.html.twig', [
@@ -135,7 +140,8 @@ class GalleryController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    throw new \Exception('Une erreur est survenue lors de l\'upload de l\'image !');
+                    $this->addFlash('danger', 'Une erreur est survenue lors de l\'upload de l\'image !');
+                    return $this->redirectToRoute('app_admin_gallery');
                 }
                 $gallery->setBackgroundPath($newFilename);
             } else {
@@ -144,6 +150,7 @@ class GalleryController extends AbstractController
 
             $entityManager->persist($gallery);
             $entityManager->flush();
+            $this->addFlash('success', 'La gallerie a bien été modifiée !');
             return $this->redirectToRoute('app_admin_gallery');
         }
 
@@ -167,6 +174,7 @@ class GalleryController extends AbstractController
 
         $entityManager->remove($gallery);
         $entityManager->flush();
+        $this->addFlash('success', 'La gallerie a bien été supprimée !');
         return $this->redirectToRoute('app_admin_gallery');
     }
 
@@ -186,7 +194,8 @@ class GalleryController extends AbstractController
             $fileSystem = new Filesystem();
             $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
             if (!$image) {
-                throw new \Exception('Vous devez ajouter une image !');
+                $this->addFlash('danger', 'Vous devez ajouter une image !');
+                return $this->redirectToRoute('app_gallery_photo_create', ['id' => $gallery->getId()]);
             }
             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
             // this is needed to safely include the file name as part of the URL
@@ -194,7 +203,8 @@ class GalleryController extends AbstractController
             $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
 
             if (!$fileSystem->exists($gallery_directory)) {
-                throw new \Exception('Aucune gallerie n\'existe avec ce nom !');
+                $this->addFlash('danger', 'Une erreur est survenue, aucune gallerie n\'existe avec le nom ' . $gallery->getName() . ' !');
+                return $this->redirectToRoute('app_gallery_photo_create', ['id' => $gallery->getId()]);
             }
 
             try {
@@ -203,7 +213,8 @@ class GalleryController extends AbstractController
                     $newFilename
                 );
             } catch (FileException $e) {
-                throw new \Exception('Une erreur est survenue lors de l\'upload de l\'image !');
+                $this->addFlash('danger', 'Une erreur est survenue lors de l\'upload de l\'image !');
+                return $this->redirectToRoute('app_admin_gallery');
             }
 
             $photo->setPath($newFilename);
@@ -211,6 +222,7 @@ class GalleryController extends AbstractController
             $photo->setGallery($gallery);
             $entityManager->persist($photo);
             $entityManager->flush();
+            $this->addFlash('success', 'La photo à bien été ajoutée !');
             return $this->redirectToRoute('app_admin_gallery_show', ['id' => $gallery->getId()]);
         }
 
