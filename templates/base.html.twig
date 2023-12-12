@@ -72,6 +72,11 @@
                         >Contact</a
                     >
                 </li>
+                <li>
+                    <span class="material-symbols-outlined dark-mode">
+                        dark_mode
+                    </span>
+                </li>
             </ul>
         </nav>
         <!-- MENU MOBILE -->
@@ -124,6 +129,11 @@
                             >Contact</a
                         >
                     </li>
+                    <li>
+                        <span class="material-symbols-outlined dark-mode">
+                            dark_mode
+                        </span>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -157,6 +167,10 @@
                         }
                     }
                 });
+
+            $(".dark-mode").click(function () {
+                $("body").toggleClass("dark-mode-body");
+            });
         </script>
     </body>
 </html>

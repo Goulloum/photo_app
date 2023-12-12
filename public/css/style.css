@@ -149,6 +149,9 @@ h1 {
 
 .navbar-container-desktop > ul > li {
     margin: 0 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navbar-title {
@@ -159,6 +162,10 @@ h1 {
 .navbar-title a {
     /* color: #439a86; */
     color: #344966;
+}
+
+.dark-mode {
+    cursor: pointer;
 }
 
 label {
@@ -234,24 +241,15 @@ textarea {
     color: #721c24;
 }
 
+.dark-mode-body {
+    background-color: #101720 !important;
+}
+
 @media screen and (min-width: 480px) {
     .navbar-container-mobile {
         display: none;
     }
     .navbar-container-desktop {
         display: flex;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1c1c1e;
-        color: #fefefe;
-    }
-    a {
-        color: #5fa9ee;
-    }
-    img {
-        filter: grayscale(20%);
     }
 }
