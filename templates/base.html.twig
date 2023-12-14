@@ -50,7 +50,7 @@
                         >Galleries</a
                     >
                 </li>
-                <li>
+                <!-- <li>
                     <a
                         style="font-weight: {{
                             app.request.pathinfo == '/about'
@@ -60,7 +60,7 @@
                         href=""
                         >À propos</a
                     >
-                </li>
+                </li> -->
                 <li>
                     <a
                         style="font-weight: {{
@@ -71,6 +71,11 @@
                         href="{{ path('app_contact') }}"
                         >Contact</a
                     >
+                </li>
+                <li>
+                    <span class="material-symbols-outlined dark-mode">
+                        dark_mode
+                    </span>
                 </li>
             </ul>
         </nav>
@@ -100,7 +105,7 @@
                             >Galleries</a
                         >
                     </li>
-                    <li>
+                    <!-- <li>
                         <span class="material-symbols-outlined"> person </span>
                         <a
                             style="font-weight: {{
@@ -111,7 +116,7 @@
                             href=""
                             >À propos</a
                         >
-                    </li>
+                    </li> -->
                     <li>
                         <span class="material-symbols-outlined"> mail </span>
                         <a
@@ -124,6 +129,11 @@
                             >Contact</a
                         >
                     </li>
+                    <li>
+                        <span class="material-symbols-outlined dark-mode">
+                            dark_mode
+                        </span>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -132,17 +142,18 @@
         <script>
             let isMenuOpen = false;
             $(document).ready(() => {
-                $(".hamburger").click(() => {
-                    if (isMenuOpen) {
-                        $(".hamburger").removeClass("hamburger-active");
-                        $(".navbar-content").css("right", "-100%");
-                        isMenuOpen = false;
-                    } else {
-                        $(".hamburger").addClass("hamburger-active");
-                        $(".navbar-content").css("right", "0");
-                        isMenuOpen = true;
-                    }
-                });
+                toggleDarkMode();
+            });
+            $(".hamburger").click(() => {
+                if (isMenuOpen) {
+                    $(".hamburger").removeClass("hamburger-active");
+                    $(".navbar-content").css("right", "-100%");
+                    isMenuOpen = false;
+                } else {
+                    $(".hamburger").addClass("hamburger-active");
+                    $(".navbar-content").css("right", "0");
+                    isMenuOpen = true;
+                }
             });
             $("form")
                 .find("select, input, textarea")
@@ -157,6 +168,24 @@
                         }
                     }
                 });
+
+            $(".dark-mode").click(function () {
+                window.localStorage.setItem(
+                    "dark-mode",
+                    window.localStorage.getItem("dark-mode") == 1 ? 0 : 1
+                );
+                toggleDarkMode();
+            });
+
+            function toggleDarkMode() {
+                if (window.localStorage.getItem("dark-mode") == 1) {
+                    $("body").addClass("dark-mode-body");
+                    $("a, h1, div, span").addClass("dark-mode-text");
+                } else {
+                    $("body").removeClass("dark-mode-body");
+                    $("a, h1, div, span").removeClass("dark-mode-text");
+                }
+            }
         </script>
     </body>
 </html>

@@ -149,6 +149,9 @@ h1 {
 
 .navbar-container-desktop > ul > li {
     margin: 0 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navbar-title {
@@ -159,6 +162,11 @@ h1 {
 .navbar-title a {
     /* color: #439a86; */
     color: #344966;
+}
+
+.dark-mode {
+    cursor: pointer;
+    user-select: none;
 }
 
 label {
@@ -232,6 +240,13 @@ textarea {
 
 .required-field {
     color: #721c24;
+}
+
+.dark-mode-body {
+    background-color: #101720 !important;
+}
+.dark-mode-text {
+    color: #fff !important;
 }
 
 @media screen and (min-width: 480px) {
