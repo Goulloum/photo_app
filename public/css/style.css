@@ -166,6 +166,7 @@ h1 {
 
 .dark-mode {
     cursor: pointer;
+    user-select: none;
 }
 
 label {
@@ -243,6 +244,9 @@ textarea {
 
 .dark-mode-body {
     background-color: #101720 !important;
+}
+.dark-mode-text {
+    color: #fff !important;
 }
 
 @media screen and (min-width: 480px) {
