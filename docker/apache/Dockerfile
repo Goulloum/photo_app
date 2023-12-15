@@ -12,6 +12,8 @@ RUN apt-get update \
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html/trade_cube/ .
+WORKDIR /var/www/html/photo_app/ 
+
+COPY . .
 
 EXPOSE 8050

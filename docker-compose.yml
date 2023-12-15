@@ -25,6 +25,7 @@ services:
       - db
     volumes:
       - .:/var/www/html/photo_app/
+      
     ports:
       - 2520:8050
     restart: always
