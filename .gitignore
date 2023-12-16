@@ -9,7 +9,9 @@
 /vendor/
 .env.*
 .env
-
+imgs/
+database
+docker-compose.yml
 public/imgs/*
 !public/imgs/noimage.jpg
 ###< symfony/framework-bundle ###
