@@ -7,19 +7,17 @@
 }
 
 .image-container {
-    height: 45vw;
+    height: 24.3vw;
     overflow: hidden;
-    width: 90vw;
-    padding: 0 5%;
+    width: 73vw;
     display: flex;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.089);
-    margin: 4vh 0;
+    margin: 4vh 5vw;
 }
 
 .image-container > img {
-    width: 90%;
+    width: 100%;
     object-fit: cover;
     height: fit-content;
-    transform: translateY(-30%);
 }

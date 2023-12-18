@@ -1,0 +1,17 @@
+.notification-container {
+    top: 2vh;
+    padding: 1vh 2vw;
+}
+.notification-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.notification-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+.notification-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}

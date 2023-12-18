@@ -149,6 +149,9 @@ h1 {
 
 .navbar-container-desktop > ul > li {
     margin: 0 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navbar-title {
@@ -161,6 +164,11 @@ h1 {
     color: #344966;
 }
 
+.dark-mode {
+    cursor: pointer;
+    user-select: none;
+}
+
 label {
     font-size: 2vh;
     font-family: "Montserrat", sans-serif;
@@ -169,7 +177,9 @@ label {
     display: inline-block;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     margin: 0.5vh 0;
     width: calc(100% - 2vw);
     padding: 0.5vh 1vw;
@@ -213,6 +223,30 @@ button[type="submit"] {
     cursor: pointer;
     background-color: #344966;
     color: white;
+}
+
+textarea {
+    margin: 0.5vh 0;
+    width: calc(100% - 2vw);
+    padding: 0.5vh 1vw;
+    font-size: 2vh;
+    border: 1px solid #000;
+    border-bottom: 1px solid #000;
+    outline: none;
+    border-radius: 3px;
+    height: 10vh;
+    resize: none;
+}
+
+.required-field {
+    color: #721c24;
+}
+
+.dark-mode-body {
+    background-color: #101720 !important;
+}
+.dark-mode-text {
+    color: #fff !important;
 }
 
 @media screen and (min-width: 480px) {

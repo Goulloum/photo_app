@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="{{ asset('css/components/flashes.css') }}" />
+{% for label, messages in app.flashes %} {% for message in messages %}
+
+<div
+    class="notification-container notification-{{ label }}"
+    style="z-index: 11"
+>
+    <div class="notification-header">
+        <strong class="me-auto">Notification</strong>
+    </div>
+    <div class="notification-body">{{ message }}</div>
+</div>
+{% endfor %} {% endfor %}

@@ -1,0 +1,15 @@
+.contact-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 5vh 0;
+}
+.form-container {
+    width: 60%;
+}
+
+.contact-title {
+    margin: 3vh;
+}

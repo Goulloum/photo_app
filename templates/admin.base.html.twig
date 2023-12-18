@@ -67,6 +67,22 @@
                 >
             </div>
         </nav>
-        <div class="content-container">{% block body %}{% endblock %}</div>
+        <div class="content-container">
+            {% include "components/flashes.html.twig" %}{% block body %}{%
+            endblock %}
+        </div>
     </body>
+    <script>
+        $("form")
+            .find("select, input, textarea")
+            .each(function () {
+                if ($(this).attr("required") == "required") {
+                    $label = $("label[for=" + $(this).attr("id") + "]");
+
+                    if ($label.find(".required-field").length == 0) {
+                        $label.append('<span class="required-field">*</span>');
+                    }
+                }
+            });
+    </script>
 </html>
