@@ -45,6 +45,9 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Gallery $gallery = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $ordering = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,6 +146,18 @@ class Photo
     public function setGallery(?Gallery $gallery): static
     {
         $this->gallery = $gallery;
+
+        return $this;
+    }
+
+    public function getOrdering(): ?int
+    {
+        return $this->ordering;
+    }
+
+    public function setOrdering(?int $ordering): static
+    {
+        $this->ordering = $ordering;
 
         return $this;
     }

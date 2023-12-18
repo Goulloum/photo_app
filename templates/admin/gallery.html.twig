@@ -11,6 +11,7 @@
                     <th>Nom</th>
                     <th>Image de couverture</th>
                     <th>Nombre de photos</th>
+                    <th>Position</th>
                     <th>Date de création</th>
                     <th>Date de mise à jour</th>
                     <th>Actions</th>
@@ -41,6 +42,7 @@
                         </div>
                     </td>
                     <td>{{ gallery.photos | length }}</td>
+                    <td>{{ gallery.ordering ?? "Non défini" }}</td>
                     <td>{{ gallery.createdAt|date('d/m/Y') }}</td>
                     <td>{{ gallery.updatedAt|date('d/m/Y') }}</td>
                     <td class="gallery-actions">

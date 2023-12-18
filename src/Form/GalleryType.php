@@ -28,6 +28,7 @@ class GalleryType extends AbstractType
                     'mimeTypesMessage' => 'Séléctionner un document PNG ou JPEG valide',
                 ])
             ]])
+            ->add('ordering', NumberType::class, ['required' => false, 'label' => 'Ordre'])
             ->add('backgroundXOffset', NumberType::class, ['required' => true, 'label' => 'Décalage horizontal', 'attr' => ['min' => -100, 'max' => 100], 'data' => 0])
             ->add('backgroundYOffset', NumberType::class, ['required' => true, 'label' => 'Décalage vertical', 'attr' => ['min' => -100, 'max' => 100], 'data' => -50]);
     }

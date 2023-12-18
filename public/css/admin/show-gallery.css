@@ -36,7 +36,7 @@
     transform: scale(1.1);
 }
 
-.gallery-footer {
+.gallery-add-photo-container {
     display: flex;
     justify-content: center;
     align-items: center;
