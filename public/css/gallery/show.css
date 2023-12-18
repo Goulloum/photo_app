@@ -111,7 +111,7 @@
 .controls {
     position: absolute;
     top: 3vh;
-    right: 3vw;
+    left: 3vw;
     background-color: #f0f4ef;
     padding: 0.5vh 1vw;
     border-radius: 15px;
@@ -148,5 +148,9 @@
     }
     .grid-container > .photo-container {
         flex-grow: 0;
+    }
+    .controls {
+        left: unset;
+        right: 3vw;
     }
 }
