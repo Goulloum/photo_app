@@ -52,6 +52,9 @@
 
     let currentPhotoId = 0
     let isInfoOpen = false
+    let isModalOpen = false
+    let touchstartX = 0
+    let touchendX = 0
     $(document).ready(() => {
         closeModal()
     })
@@ -109,6 +112,7 @@
     })
 
     function openModal(photoId) {
+        isModalOpen = true
         let photo = photos.find((photo) => photo.id == photoId)
         $('.photo-modal img').attr('src', photo.path)
         $('.photo-modal img').attr('attr', photo.name)
@@ -123,7 +127,9 @@
         $('.photo-modal-container').hide()
         document.exitFullscreen()
         $(".controls .fullscreen").html('fullscreen')
+        isModalOpen = false
         closeInfo()
+
 
     }
 
@@ -138,6 +144,43 @@
         $('.details-photo').removeClass('details-photo-active')
         $('.photo-modal img').removeClass('photo-modal-minimized')
     }
+
+
+    //Handle phone swipe to change current fullscreen photo
+
+    function checkDirection() {
+        if(!isModalOpen) {
+            return
+        }
+    if (touchendX < touchstartX)
+    {
+        let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+        if(currentIndex == photos.length - 1) {
+            currentPhotoId = photos[0].id
+        } else {
+            currentPhotoId = photos[currentIndex + 1].id
+        }
+        openModal(currentPhotoId)
+    }
+    if (touchendX > touchstartX)  {
+        let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+        if(currentIndex == 0) {
+            currentPhotoId = photos[photos.length - 1].id
+        } else {
+            currentPhotoId = photos[currentIndex - 1].id
+        }
+        openModal(currentPhotoId)
+    }
+    }
+
+    document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX
+    })
+
+    document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX
+    checkDirection()
+    })
 </script>
 
 {% endblock %}

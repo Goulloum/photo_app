@@ -225,6 +225,25 @@ button[type="submit"] {
     color: white;
 }
 
+.password-input {
+    width: 100%;
+    position: relative;
+}
+
+.password-input > span {
+    position: absolute;
+    top: calc(50% - 1vh);
+    right: 0.5vw;
+    height: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vh;
+    cursor: pointer;
+    user-select: none;
+    color: black !important;
+}
+
 textarea {
     margin: 0.5vh 0;
     width: calc(100% - 2vw);
@@ -247,6 +266,10 @@ textarea {
 }
 .dark-mode-text {
     color: #fff !important;
+}
+
+.dark-hamburger-line {
+    background-color: #fff !important;
 }
 
 @media screen and (min-width: 480px) {
