@@ -7,7 +7,7 @@ on:
 env:
     # Use docker.io for Docker Hub if empty
     REGISTRY: ghcr.io
-    IMAGE_NAME: ${{ github.actor }}/photo_app:latest
+    IMAGE_NAME: photo_app:latest
 
 jobs:
     publish:
@@ -16,28 +16,33 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
+            - name: set lower case owner name
+              run: |
+                  echo "REPO_NAME=${OWNER,,}/${{env.IMAGE_NAME}}" >>${GITHUB_ENV}
+              env:
+                  OWNER: "${{ github.repository_owner }}"
             - name: Login
               run: |
                   echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             - name: Build and Publish
               run: |
-                  docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-                  docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                  docker build . --tag ${{ env.REGISTRY }}/${{ env.REPO_NAME }}
+                  docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}
 
-    deploy:
-        needs: publish
-        name: deploy image
-        runs-on: ubuntu-latest
+    # deploy:
+    #     needs: publish
+    #     name: deploy image
+    #     runs-on: ubuntu-latest
 
-        steps:
-            - name: install ssh keys
-              # check this thread to understand why its needed:
-              # <https://stackoverflow.com/a/70447517>
-              run: |
-                  install -m 600 -D /dev/null ~/.ssh/id_rsa
-                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                  ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-            - name: connect and pull
-              run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
-            - name: cleanup
-              run: rm -rf ~/.ssh
+    #     steps:
+    #         - name: install ssh keys
+    #           # check this thread to understand why its needed:
+    #           # <https://stackoverflow.com/a/70447517>
+    #           run: |
+    #               install -m 600 -D /dev/null ~/.ssh/id_rsa
+    #               echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+    #               ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    #         - name: connect and pull
+    #           run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
+    #         - name: cleanup
+    #           run: rm -rf ~/.ssh
