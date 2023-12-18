@@ -171,7 +171,9 @@ class GalleryController extends AbstractController
         if ($fileSystem->exists($gallery_directory)) {
             $fileSystem->remove($gallery_directory);
         }
-
+        foreach ($gallery->getPhotos() as $photo) {
+            $entityManager->remove($photo);
+        }
         $entityManager->remove($gallery);
         $entityManager->flush();
         $this->addFlash('success', 'La gallerie a bien été supprimée !');

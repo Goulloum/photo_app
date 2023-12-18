@@ -52,7 +52,7 @@
                             >Modifier</a
                         >
                         <a
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette galerie ?')"
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette galerie ? (Les photos associées seront également supprimées)')"
                             href="{{
                                 path('app_gallery_delete', { id: gallery.id })
                             }}"
