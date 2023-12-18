@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,6 +24,7 @@ class PhotoType extends AbstractType
                 'mapped' => false,
                 'required' => true,
             ])
+            ->add('ordering', NumberType::class, ['required' => false, "label" => "Ordre"])
             ->add('description', TextareaType::class, ['required' => false, "label" => "Description"])
             ->add('location', TextType::class,  ['required' => false, "label" => "Lieu"])
             ->add('datePhoto', DateType::class,  ['required' => false, "label" => "Date de la photo"])
