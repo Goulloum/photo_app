@@ -37,7 +37,8 @@
         >
     </div>
     <div class="gallery-photo-container">
-        {% for photo in gallery.photos %}
+        {% for photo in gallery.photos|sort((a,b) => a.ordering <=> b.ordering)
+        %}
         <div class="gallery-photo">
             <img
                 src="{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}"

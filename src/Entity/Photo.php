@@ -45,8 +45,8 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Gallery $gallery = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $ordering = null;
+    #[ORM\Column(nullable: true, options: ["default" => 99999])]
+    private ?int $ordering = 99999;
 
     public function getId(): ?int
     {
