@@ -249,6 +249,10 @@ textarea {
     color: #fff !important;
 }
 
+.dark-hamburger-line {
+    background-color: #fff !important;
+}
+
 @media screen and (min-width: 480px) {
     .navbar-container-mobile {
         display: none;

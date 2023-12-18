@@ -125,14 +125,18 @@
                                     ? ' bold'
                                     : ' inherit'
                             }}"
-                            href=""
+                            href="{{ path('app_contact') }}"
                             >Contact</a
                         >
                     </li>
-                    <li>
+                    <li class="dark-mode">
                         <span class="material-symbols-outlined dark-mode">
                             dark_mode
                         </span>
+                        <a
+                            class="dark-mode-mobile-text"
+                            style="font-weight: inherit"
+                        ></a>
                     </li>
                 </ul>
             </div>
@@ -179,11 +183,16 @@
 
             function toggleDarkMode() {
                 if (window.localStorage.getItem("dark-mode") == 1) {
-                    $("body").addClass("dark-mode-body");
+                    $("body, .navbar-content").addClass("dark-mode-body");
                     $("a, h1, div, span").addClass("dark-mode-text");
+                    $(".hamburger-line").addClass("dark-hamburger-line");
+
+                    $(".dark-mode-mobile-text").text("Jour");
                 } else {
-                    $("body").removeClass("dark-mode-body");
+                    $("body, .navbar-content").removeClass("dark-mode-body");
                     $("a, h1, div, span").removeClass("dark-mode-text");
+                    $(".hamburger-line").removeClass("dark-hamburger-line");
+                    $(".dark-mode-mobile-text").text("Nuit");
                 }
             }
         </script>
