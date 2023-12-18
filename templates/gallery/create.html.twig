@@ -1,7 +1,10 @@
 {% extends 'admin.base.html.twig' %} {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/gallery/create.css') }}" />
 {% endblock %} {% block body %}
-<div class="create-gallery-container">
+<div class="create-gallery-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
     <div class="form-title">Ajouter une gallerie</div>
     <div class="form-container">
         {{ form_start(form) }}
@@ -12,7 +15,7 @@
         >
         <div class="file-name"></div>
         {{ form_widget(form.background) }}
-
+        {{ form_row(form.ordering) }}
         {{ form_row(form.backgroundXOffset) }}
         {{ form_row(form.backgroundYOffset) }}
 

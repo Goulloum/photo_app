@@ -36,6 +36,9 @@ class Gallery
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $backgroundYOffset = null;
 
+    #[ORM\Column(nullable: true, options: ["default" => 99999])]
+    private ?int $ordering = 99999;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -144,6 +147,18 @@ class Gallery
     public function setBackgroundYOffset(?string $backgroundYOffset): static
     {
         $this->backgroundYOffset = $backgroundYOffset;
+
+        return $this;
+    }
+
+    public function getOrdering(): ?int
+    {
+        return $this->ordering;
+    }
+
+    public function setOrdering(?int $ordering): static
+    {
+        $this->ordering = $ordering;
 
         return $this;
     }
