@@ -26,7 +26,10 @@
 
                 <span class="material-symbols-outlined close"> close </span>
             </div>
+            <span class="material-symbols-outlined arrows">chevron_left</span>
             <img src="" alt="" />
+            <span class="material-symbols-outlined arrows">chevron_right</span>
+
             <div class="details-photo">
                 <h2 class="photo-title"></h2>
                 <div class="date-location-container">
@@ -102,6 +105,26 @@
         }
 
         if(event.key == 'ArrowRight' && $('.photo-modal-container').is(':visible')) {
+            let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+            if(currentIndex == photos.length - 1) {
+                currentPhotoId = photos[0].id
+            } else {
+                currentPhotoId = photos[currentIndex + 1].id
+            }
+            openModal(currentPhotoId)
+        }
+    })
+
+    $('.arrows').click(function() {
+        if($(this).text() == 'chevron_left') {
+            let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
+            if(currentIndex == 0) {
+                currentPhotoId = photos[photos.length - 1].id
+            } else {
+                currentPhotoId = photos[currentIndex - 1].id
+            }
+            openModal(currentPhotoId)
+        } else {
             let currentIndex = photos.findIndex((photo) => photo.id == currentPhotoId)
             if(currentIndex == photos.length - 1) {
                 currentPhotoId = photos[0].id
