@@ -51,8 +51,8 @@
                     >Modifier</a
                 >
                 <a
-                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')"
-                    href="{{ path('app_photo_delete', { id: photo.id }) }}"
+                    onclick="handlePhotoDelete({{ photo.id }})"
+                    $
                     class="btn btn-minimal"
                     >Supprimer</a
                 >
@@ -68,4 +68,20 @@
         >
     </div>
 </div>
+
+<script>
+    const handlePhotoDelete = (photoId) => {
+        if (!confirm("Etes-vous sûr de vouloir supprimer cette photo ?")) {
+            return null;
+        }
+
+        $.ajax({
+            url: `/photo/${photoId}`,
+            method: "DELETE",
+            success: () => {
+                window.location.reload();
+            },
+        });
+    };
+</script>
 {% endblock %}

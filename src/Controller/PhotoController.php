@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\PhotoType;
 use App\Repository\PhotoRepository;
+use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,10 +15,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PhotoController extends AbstractController
 {
+    private PhotoService $photoService;
 
+    public function __construct(PhotoService $photoService)
+    {
+        $this->photoService = $photoService;
+    }
 
     #[Route('/photo/edit/{id}', name: 'app_photo_edit', requirements: ['id' => '\d+'])]
-    public function edit(Request $request, PhotoRepository $photoRepository, EntityManagerInterface $entityManagerInterface, SluggerInterface $slugger): Response
+    public function edit(int $id, Request $request, SluggerInterface $slugger): Response
     {
         $photo = $photoRepository->find($request->get('id'));
         $form = $this->createForm(PhotoType::class, $photo);
@@ -42,20 +48,20 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/photo/delete/{id}', name: 'app_photo_delete', requirements: ['id' => '\d+'])]
-    public function delete(Request $request, PhotoRepository $photoRepository, EntityManagerInterface $entityManagerInterface): Response
+    #[Route('/photo/{id}', name: 'app_photo_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    public function delete(int $id): Response
     {
-        $photo = $photoRepository->find($request->get('id'));
-        $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($photo->getGallery()->getName()));
-
-        $fileSystem = new Filesystem();
-        if ($fileSystem->exists($gallery_directory . '/' . $photo->getPath())) {
-            $fileSystem->remove($gallery_directory . '/' . $photo->getPath());
+        try {
+            $this->photoService->delete($id);
+            $this->addFlash('success', 'Photo supprimée avec succès !');
+            return new Response('Photo supprimée avec succès !', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            switch (get_class($e)) {
+                case 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException':
+                    return new Response('Photo non trouvée !', Response::HTTP_NOT_FOUND);
+                default:
+                    return new Response('Une erreur est survenue !', Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         }
-
-        $entityManagerInterface->remove($photo);
-        $entityManagerInterface->flush();
-        $this->addFlash('success', 'Photo supprimée avec succès !');
-        return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
     }
 }
