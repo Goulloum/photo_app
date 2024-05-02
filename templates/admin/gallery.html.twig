@@ -48,7 +48,9 @@
                     <td class="gallery-actions">
                         <a
                             href="{{
-                                path('app_gallery_edit', { id: gallery.id })
+                                path('app_gallery_edit', {
+                                    id: gallery.id
+                                })
                             }}"
                             class="btn btn-secondary"
                             >Modifier</a
@@ -56,7 +58,9 @@
                         <a
                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette galerie ? (Les photos associées seront également supprimées)')"
                             href="{{
-                                path('app_gallery_delete', { id: gallery.id })
+                                path('app_gallery_delete', {
+                                    id: gallery.id
+                                })
                             }}"
                             class="btn btn-minimal"
                             >Supprimer</a
