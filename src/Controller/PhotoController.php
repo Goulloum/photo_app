@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Photo;
 use App\Form\PhotoType;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,4 +64,10 @@ class PhotoController extends AbstractController
         $this->addFlash('success', 'Photo supprimée avec succès !');
         return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
     }
+
+   
+
+
+
+   
 }
