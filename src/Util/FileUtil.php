@@ -20,7 +20,7 @@ class FileUtil
      * @param string $directory
      * @return string The uploaded file name
      */
-    final public function uploadFile(File $file, string $directory): string
+    public function uploadFile(File $file, string $directory): string
     {
         $originalFilename = pathinfo($file->getFilename(), PATHINFO_FILENAME);
         // this is needed to safely include the file name as part of the URL
@@ -32,7 +32,7 @@ class FileUtil
         return $fileName;
     }
 
-    final public function removeFile(string $path): void
+    public function removeFile(string $path): void
     {
         $fileSystem = new Filesystem();
         if ($fileSystem->exists($path)) {

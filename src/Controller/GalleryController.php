@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gallery', name: 'app_gallery_')]
@@ -36,7 +37,6 @@ class GalleryController extends AbstractController
         $galleries = $this->galleryRepository->findAll();
 
         return $this->render('gallery/index.html.twig', [
-            'controller_name' => 'GalleryController',
             'galleries' => $galleries
         ]);
     }
@@ -47,11 +47,11 @@ class GalleryController extends AbstractController
         $gallery = $this->galleryRepository->find($id);
 
         return $this->render('gallery/show.html.twig', [
-            'controller_name' => 'GalleryController',
             'gallery' => $gallery
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/create', name: 'create')]
     public function create(Request $request): Response
     {
@@ -87,6 +87,7 @@ class GalleryController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/edit/{id}', name: 'edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request, int $id): Response
     {
@@ -139,6 +140,7 @@ class GalleryController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/delete/{id}', name: 'delete')]
     public function delete($id): Response
     {
@@ -159,7 +161,8 @@ class GalleryController extends AbstractController
         return $this->redirectToRoute('app_admin_gallery');
     }
 
-    #[Route('/gallery/{id}/photo/create', name: 'photo_create')]
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/{id}/photo/create', name: 'photo_create')]
     public function createPhoto(Request $request, $id): Response
     {
         $photo = new Photo();
@@ -178,11 +181,11 @@ class GalleryController extends AbstractController
                 $this->addFlash('danger', 'Vous devez ajouter une image !');
                 return $this->redirectToRoute('app_gallery_photo_create', ['id' => $gallery->getId()]);
             }
-            
 
-            try{
+
+            try {
                 $newFilename = $this->fileUtil->uploadFile(new File($image), $gallery_directory);
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
                 return $this->redirectToRoute('app_gallery_photo_create', ['id' => $gallery->getId()]);
             }

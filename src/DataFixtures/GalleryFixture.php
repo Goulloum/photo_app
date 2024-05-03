@@ -16,6 +16,7 @@ class GalleryFixture extends Fixture
         $gallery->setCreatedAt(new \DateTimeImmutable());
         $gallery->setUpdatedAt(new \DateTimeImmutable());
         $gallery->setBackgroundPath('gallery1.jpg');
+        $this->addReference('gallery_1', $gallery);
         $manager->persist($gallery);
 
         $manager->flush();

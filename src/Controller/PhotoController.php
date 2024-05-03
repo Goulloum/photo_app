@@ -11,6 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/photo', name: 'app_photo_')]
@@ -21,7 +22,7 @@ class PhotoController extends AbstractController
     {
     }
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/edit/{id}', name: 'edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request): Response
     {
@@ -47,7 +48,7 @@ class PhotoController extends AbstractController
             'photo' => $photo,
         ]);
     }
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'])]
     public function delete(Request $request): Response
     {
@@ -65,9 +66,9 @@ class PhotoController extends AbstractController
         return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
     }
 
-   
 
 
 
-   
+
+
 }
