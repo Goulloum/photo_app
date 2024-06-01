@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Gallery;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class GalleryFixture extends Fixture
+class GalleryFixture extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -17,8 +18,16 @@ class GalleryFixture extends Fixture
         $gallery->setUpdatedAt(new \DateTimeImmutable());
         $gallery->setBackgroundPath('gallery1.jpg');
         $this->addReference('gallery_1', $gallery);
+        $gallery->setUser($this->getReference('user_1'));
         $manager->persist($gallery);
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixture::class,
+        ];
     }
 }
