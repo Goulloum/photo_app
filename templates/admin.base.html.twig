@@ -44,7 +44,18 @@
                     }}"
                 >
                     <a href="{{ path('app_admin_gallery') }}"
-                        >Édition gallerie</a
+                        >Galleries</a
+                    >
+                </li>
+                <li
+                    class="{{
+                        app.request.pathinfo == '/admin/user'
+                            ? 'selected'
+                            : ''
+                    }}"
+                >
+                    <a href="{{ path('app_admin_user') }}"
+                        >Utilisateurs</a
                     >
                 </li>
                 {#

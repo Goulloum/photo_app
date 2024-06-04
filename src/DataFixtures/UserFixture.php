@@ -19,6 +19,8 @@ class UserFixture extends Fixture
         $user->setEmail('test.user@gmail.com');
         $user->setPassword($this->hasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_USER']);
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $user->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($user);
 
         // create a user with admin role
@@ -26,6 +28,8 @@ class UserFixture extends Fixture
         $admin->setEmail('test.admin@gmail.com');
         $admin->setPassword($this->hasher->hashPassword($admin, 'password'));
         $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setCreatedAt(new \DateTimeImmutable());
+        $admin->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($admin);
 
         $this->addReference('user_1', $user);
