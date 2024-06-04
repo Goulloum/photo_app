@@ -29,8 +29,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Gallery::class)]
-    private Collection $galleries;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Photo::class)]
     private Collection $photos;
@@ -44,15 +42,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Gallery::class)]
+    private Collection $galleries;
+
 
 
     public function __construct()
     {
-        $this->galleries = new ArrayCollection();
         $this->photos = new ArrayCollection();
         $this->eventsCreated = new ArrayCollection();
         $this->eventsSubscribed = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->galleries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,35 +130,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @return Collection<int, Event>
      */
 
-    /**
-     * @return Collection<int, Gallery>
-     */
-    public function getGalleries(): Collection
-    {
-        return $this->galleries;
-    }
 
-    public function addGallery(Gallery $gallery): static
-    {
-        if (!$this->galleries->contains($gallery)) {
-            $this->galleries->add($gallery);
-            $gallery->setUser($this);
-        }
 
-        return $this;
-    }
-
-    public function removeGallery(Gallery $gallery): static
-    {
-        if ($this->galleries->removeElement($gallery)) {
-            // set the owning side to null (unless already changed)
-            if ($gallery->getUser() === $this) {
-                $gallery->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Photo>
@@ -270,6 +244,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Gallery>
+     */
+    public function getGalleries(): Collection
+    {
+        return $this->galleries;
+    }
+
+    public function addGallery(Gallery $gallery): static
+    {
+        if (!$this->galleries->contains($gallery)) {
+            $this->galleries->add($gallery);
+            $gallery->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGallery(Gallery $gallery): static
+    {
+        if ($this->galleries->removeElement($gallery)) {
+            // set the owning side to null (unless already changed)
+            if ($gallery->getUser() === $this) {
+                $gallery->setUser(null);
             }
         }
 

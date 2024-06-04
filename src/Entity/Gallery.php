@@ -40,8 +40,9 @@ class Gallery
     private ?int $ordering = 99999;
 
     #[ORM\ManyToOne(inversedBy: 'galleries')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+
 
 
 
@@ -180,4 +181,6 @@ class Gallery
 
         return $this;
     }
+
+
 }
