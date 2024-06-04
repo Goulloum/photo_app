@@ -27,7 +27,7 @@ class GalleryControllerTest extends WebTestCase
     {
 
         $client = static::createClient();
-        $client->disableReboot(); //Some dark magic found on stackoverflow
+        $client->disableReboot(); 
 
         //Mock gallery service method : saveBackgroundImgFile
 
