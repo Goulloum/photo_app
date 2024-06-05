@@ -1,0 +1,22 @@
+.events-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.event-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 15vw;
+    height: 30vh;
+    margin: 1vw;
+    padding: 1vw;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    transition: all 0.3s ease-in-out;
+}

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Gallery;
 use App\Entity\Photo;
+use App\Form\CreateCommentType;
 use App\Form\GalleryType;
 use App\Form\PhotoType;
 use App\Repository\GalleryRepository;
@@ -45,9 +47,16 @@ class GalleryController extends AbstractController
     public function show($id): Response
     {
         $gallery = $this->galleryRepository->find($id);
+        if (!$gallery) {
+            $this->addFlash('danger', 'La gallerie n\'existe pas !');
+            return $this->redirectToRoute('app_gallery_index');
+        }
+        $comment = new Comment();
+        $formCreateComment = $this->createForm(CreateCommentType::class, $comment, ['action' => $this->generateUrl('app_comment_post')]);
 
         return $this->render('gallery/show.html.twig', [
-            'gallery' => $gallery
+            'gallery' => $gallery,
+            'formCreateComment' => $formCreateComment
         ]);
     }
 
@@ -61,7 +70,6 @@ class GalleryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $gallery = $form->getData();
             $gallery->setCreatedAt(new \DateTimeImmutable());
             $gallery->setUpdatedAt(new \DateTimeImmutable());
             $image = $form->get('background')->getData();
@@ -75,6 +83,7 @@ class GalleryController extends AbstractController
 
                 $gallery->setBackgroundPath($fileName);
             }
+            $gallery->setUser($this->getUser());
             $this->entityManager->persist($gallery);
             $this->entityManager->flush();
             $this->addFlash('success', 'La gallerie a bien été créée !');
@@ -171,11 +180,9 @@ class GalleryController extends AbstractController
         $form->remove('gallery');
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $photo = $form->getData();
             $photo->setCreatedAt(new \DateTimeImmutable());
             $photo->setUpdatedAt(new \DateTimeImmutable());
             $image = $form->get('img')->getData();
-            $fileSystem = new Filesystem();
             $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($gallery->getName()));
             if (!$image) {
                 $this->addFlash('danger', 'Vous devez ajouter une image !');
@@ -191,7 +198,7 @@ class GalleryController extends AbstractController
             }
 
             $photo->setPath($newFilename);
-
+            $photo->setUser($this->getUser());
             $photo->setGallery($gallery);
             $this->entityManager->persist($photo);
             $this->entityManager->flush();

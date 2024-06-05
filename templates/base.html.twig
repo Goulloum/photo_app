@@ -39,6 +39,7 @@
     </head>
 
     <body>
+        {% include "components/flashes.html.twig" %}
         <!-- MENU DESKTOP -->
         <nav class="navbar-container-desktop">
             <h1 class="navbar-title">
@@ -56,20 +57,18 @@
                         >Galleries</a
                     >
                 </li>
-                <!-- <li>
+                <li>
                     <a
                         style="font-weight: {{
-                            app.request.pathinfo == '/about'
+                            app.request.pathinfo == '/event'
                                 ? ' bold'
                                 : ' inherit'
                         }}"
-                        href=""
-                        >À propos</a
+                        href="{{ path('app_event_index') }}"
+                        >Évènements</a
                     >
-                </li> -->
-                <li>
-                
                 </li>
+
                 <li>
                     <a
                         style="font-weight: {{
@@ -114,18 +113,19 @@
                             >Galleries</a
                         >
                     </li>
-                    <!-- <li>
-                        <span class="material-symbols-outlined"> person </span>
+                    <li>
+                        <span class="material-symbols-outlined"> event </span>
                         <a
                             style="font-weight: {{
-                                app.request.pathinfo == '/about'
+                                app.request.pathinfo == '/event'
                                     ? ' bold'
                                     : ' inherit'
                             }}"
-                            href=""
-                            >À propos</a
+                            href="{{ path('app_event_index') }}"
+                            >Évènements</a
                         >
-                    </li> -->
+                    </li>
+
                     <li>
                         <span class="material-symbols-outlined"> mail </span>
                         <a

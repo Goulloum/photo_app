@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EventRepository;
 use App\Repository\GalleryRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,6 +46,14 @@ class AdminController extends AbstractController
         $users = $userRepository->findAll();
 
         return $this->render('admin/user.html.twig', ['users' => $users]);
+    }
+
+    #[Route('/event', name: 'event')]
+    public function event(EventRepository $eventRepository): Response
+    {
+        $events = $eventRepository->findAll();
+        return $this->render('admin/event.html.twig',
+            ['events' => $events]);
     }
 
 

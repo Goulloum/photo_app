@@ -7,26 +7,28 @@
         <table id="galleries" class="display">
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Roles</th>
+                    <th>Nom</th>
+                    <th>Emplacement</th>
+                    <th>Date</th>
                     <th>Date de création</th>
                     <th>Date de mise à jour</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for event in events %}
                 <tr>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.roles | join(', ') }}</td>
-                    <td>{{ user.createdAt|date('d/m/Y') }}</td>
-                    <td>{{ user.updatedAt|date('d/m/Y') }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.location }}</td>
+                    <td>{{ event.date|date('d/m/Y')  }}</td>
+                    <td>{{ event.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ event.updatedAt|date('d/m/Y') }}</td>
                     <td class="gallery-actions">
                         <a
                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? ')"
                             href="{{
-                                path('app_user_delete', {
-                                    id: user.id
+                                path('app_event_delete', {
+                                    id: event.id
                                 })
                             }}"
                             class="btn btn-minimal"
@@ -58,9 +60,9 @@
         dom: "Bfrtip",
         buttons: [
             {
-                text: "Ajouter un administrateur",
+                text: "Ajouter",
                 action: function (e, dt, node, config) {
-                    document.location = "{{ path('app_user_create') }}";
+                    document.location = "{{ path('app_event_create') }}";
                 },
             },
         ],

@@ -58,6 +58,17 @@
                         >Utilisateurs</a
                     >
                 </li>
+                <li
+                    class="{{
+                        app.request.pathinfo == '/admin/event'
+                            ? 'selected'
+                            : ''
+                    }}"
+                >
+                    <a href="{{ path('app_admin_event') }}"
+                        >Évènements</a
+                    >
+                </li>
                 {#
                 <li>
                     <a
