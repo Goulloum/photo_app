@@ -65,6 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->eventsSubscribed = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->galleries = new ArrayCollection();
+        $this->galleries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,9 +138,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Event>
-     */
 
 
 
