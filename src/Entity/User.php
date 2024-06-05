@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -26,6 +30,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Photo::class)]
+    private Collection $photos;
+
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Event::class)]
+    private Collection $eventsCreated;
+
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'participant')]
+    private Collection $eventsSubscribed;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Gallery::class)]
+    private Collection $galleries;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $fullName = null;
+
+
+
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+        $this->eventsCreated = new ArrayCollection();
+        $this->eventsSubscribed = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->galleries = new ArrayCollection();
+        $this->galleries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -95,5 +139,204 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+
+
+
+
+    /**
+     * @return Collection<int, Photo>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): static
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): static
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getUser() === $this) {
+                $photo->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEventsCreated(): Collection
+    {
+        return $this->eventsCreated;
+    }
+
+    public function addEventsCreated(Event $eventsCreated): static
+    {
+        if (!$this->eventsCreated->contains($eventsCreated)) {
+            $this->eventsCreated->add($eventsCreated);
+            $eventsCreated->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventsCreated(Event $eventsCreated): static
+    {
+        if ($this->eventsCreated->removeElement($eventsCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($eventsCreated->getCreator() === $this) {
+                $eventsCreated->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEventsSubscribed(): Collection
+    {
+        return $this->eventsSubscribed;
+    }
+
+    public function addEventsSubscribed(Event $eventsSubscribed): static
+    {
+        if (!$this->eventsSubscribed->contains($eventsSubscribed)) {
+            $this->eventsSubscribed->add($eventsSubscribed);
+            $eventsSubscribed->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventsSubscribed(Event $eventsSubscribed): static
+    {
+        if ($this->eventsSubscribed->removeElement($eventsSubscribed)) {
+            $eventsSubscribed->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Gallery>
+     */
+    public function getGalleries(): Collection
+    {
+        return $this->galleries;
+    }
+
+    public function addGallery(Gallery $gallery): static
+    {
+        if (!$this->galleries->contains($gallery)) {
+            $this->galleries->add($gallery);
+            $gallery->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGallery(Gallery $gallery): static
+    {
+        if ($this->galleries->removeElement($gallery)) {
+            // set the owning side to null (unless already changed)
+            if ($gallery->getUser() === $this) {
+                $gallery->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): static
+    {
+        $this->fullName = $fullName;
+
+        return $this;
     }
 }

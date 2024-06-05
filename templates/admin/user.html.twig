@@ -1,0 +1,69 @@
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/admin/gallery.css') }}" />
+{% endblock %} {% block body %}
+<div class="gallery-admin-container main-container">
+
+    <div class="gallery-table-container">
+        <table id="galleries" class="display">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Date de création</th>
+                    <th>Date de mise à jour</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles | join(', ') }}</td>
+                    <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ user.updatedAt|date('d/m/Y') }}</td>
+                    <td class="gallery-actions">
+                        <a
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? ')"
+                            href="{{
+                                path('app_user_delete', {
+                                    id: user.id
+                                })
+                            }}"
+                            class="btn btn-minimal"
+                            >Supprimer</a
+                        >
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let table = new DataTable("#galleries", {
+        language: {
+            lengthMenu: "Afficher _MENU_ lignes par page",
+            zeroRecords: "Aucun résultat trouvé",
+            info: "_PAGE_ sur _PAGES_",
+            infoEmpty: "Aucun résultat trouvé",
+            paginate: {
+                first: "Première",
+                last: "Dernière",
+                next: "Suivant",
+                previous: "Précédent",
+            },
+            search: "Rechercher :",
+        },
+        dom: "Bfrtip",
+        buttons: [
+            {
+                text: "Ajouter un administrateur",
+                action: function (e, dt, node, config) {
+                    document.location = "{{ path('app_user_create') }}";
+                },
+            },
+        ],
+    });
+</script>
+{% endblock %}

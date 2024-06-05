@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Photo;
 use App\Form\PhotoType;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,16 +11,22 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+#[Route('/photo', name: 'app_photo_')]
 class PhotoController extends AbstractController
 {
 
-
-    #[Route('/photo/edit/{id}', name: 'app_photo_edit', requirements: ['id' => '\d+'])]
-    public function edit(Request $request, PhotoRepository $photoRepository, EntityManagerInterface $entityManagerInterface, SluggerInterface $slugger): Response
+    public function __construct(private PhotoRepository $photoRepository, private EntityManagerInterface $entityManagerInterface, private SluggerInterface $slugger)
     {
-        $photo = $photoRepository->find($request->get('id'));
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/edit/{id}', name: 'edit', requirements: ['id' => '\d+'])]
+    public function edit(Request $request): Response
+    {
+        $photo = $this->photoRepository->find($request->get('id'));
         $form = $this->createForm(PhotoType::class, $photo);
         $form->remove('gallery');
         $form->remove('img');
@@ -28,8 +35,8 @@ class PhotoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $photo = $form->getData();
             $photo->setUpdatedAt(new \DateTimeImmutable());
-            $entityManagerInterface->persist($photo);
-            $entityManagerInterface->flush();
+            $this->entityManagerInterface->persist($photo);
+            $this->entityManagerInterface->flush();
             $this->addFlash('success', 'Photo modifiée avec succès !');
             return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
         }
@@ -41,11 +48,11 @@ class PhotoController extends AbstractController
             'photo' => $photo,
         ]);
     }
-
-    #[Route('/photo/delete/{id}', name: 'app_photo_delete', requirements: ['id' => '\d+'])]
-    public function delete(Request $request, PhotoRepository $photoRepository, EntityManagerInterface $entityManagerInterface): Response
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'])]
+    public function delete(Request $request): Response
     {
-        $photo = $photoRepository->find($request->get('id'));
+        $photo = $this->photoRepository->find($request->get('id'));
         $gallery_directory = $this->getParameter('gallery_images_directory') . str_replace(' ', '_', strtolower($photo->getGallery()->getName()));
 
         $fileSystem = new Filesystem();
@@ -53,9 +60,15 @@ class PhotoController extends AbstractController
             $fileSystem->remove($gallery_directory . '/' . $photo->getPath());
         }
 
-        $entityManagerInterface->remove($photo);
-        $entityManagerInterface->flush();
+        $this->entityManagerInterface->remove($photo);
+        $this->entityManagerInterface->flush();
         $this->addFlash('success', 'Photo supprimée avec succès !');
         return $this->redirectToRoute('app_admin_gallery_show', ['id' => $photo->getGallery()->getId()]);
     }
+
+
+
+
+
+
 }

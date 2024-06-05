@@ -1,0 +1,20 @@
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/gallery/create.css') }}" />
+{% endblock %} {% block body %}
+<div class="create-gallery-container main-container">
+    <button onclick="window.history.back()" class="btn btn-primary">
+        Retour
+    </button>
+    <div class="form-title">Ajouter une gallerie</div>
+    <div class="form-container">
+        {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.password) }}
+
+        <button type="submit" class="btn">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+
+</div>
+
+{% endblock %}

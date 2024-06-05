@@ -39,10 +39,13 @@
     </head>
 
     <body>
+        {% include "components/flashes.html.twig" %}
         <!-- MENU DESKTOP -->
         <nav class="navbar-container-desktop">
             <h1 class="navbar-title">
-                <a href="{{ path('app_gallery') }}">RICHARD<br />GUILLEMIN</a>
+                <a href="{{ path('app_gallery_index') }}"
+                    >RICHARD<br />GUILLEMIN</a
+                >
             </h1>
             <ul>
                 <li>
@@ -50,21 +53,22 @@
                         style="font-weight: {{
                             app.request.pathinfo == '/' ? ' bold' : ' inherit'
                         }}"
-                        href="{{ path('app_gallery') }}"
+                        href="{{ path('app_gallery_index') }}"
                         >Galleries</a
                     >
                 </li>
-                <!-- <li>
+                <li>
                     <a
                         style="font-weight: {{
-                            app.request.pathinfo == '/about'
+                            app.request.pathinfo == '/event'
                                 ? ' bold'
                                 : ' inherit'
                         }}"
-                        href=""
-                        >À propos</a
+                        href="{{ path('app_event_index') }}"
+                        >Évènements</a
                     >
-                </li> -->
+                </li>
+
                 <li>
                     <a
                         style="font-weight: {{
@@ -92,7 +96,7 @@
             </div>
             <div class="navbar-content">
                 <h1 class="navbar-title">
-                    <a href="{{ path('app_gallery') }}"
+                    <a href="{{ path('app_gallery_index') }}"
                         >RICHARD<br />GUILLEMIN</a
                     >
                 </h1>
@@ -105,22 +109,23 @@
                                     ? ' bold'
                                     : ' inherit'
                             }}"
-                            href="{{ path('app_gallery') }}"
+                            href="{{ path('app_gallery_index') }}"
                             >Galleries</a
                         >
                     </li>
-                    <!-- <li>
-                        <span class="material-symbols-outlined"> person </span>
+                    <li>
+                        <span class="material-symbols-outlined"> event </span>
                         <a
                             style="font-weight: {{
-                                app.request.pathinfo == '/about'
+                                app.request.pathinfo == '/event'
                                     ? ' bold'
                                     : ' inherit'
                             }}"
-                            href=""
-                            >À propos</a
+                            href="{{ path('app_event_index') }}"
+                            >Évènements</a
                         >
-                    </li> -->
+                    </li>
+
                     <li>
                         <span class="material-symbols-outlined"> mail </span>
                         <a
