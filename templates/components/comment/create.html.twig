@@ -1,4 +1,4 @@
-{% if formCreateComment %}
+{% if formCreateComment and app.user %}
 {{ form_start(formCreateComment) }}
 {{ form_row(formCreateComment.text) }}
 <input type="hidden" name="{{ field_name(formCreateComment.photoId) }}" />

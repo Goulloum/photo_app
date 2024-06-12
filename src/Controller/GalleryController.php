@@ -48,7 +48,7 @@ class GalleryController extends AbstractController
     {
         $gallery = $this->galleryRepository->find($id);
         if (!$gallery) {
-            $this->addFlash('danger', 'La gallerie n\'existe pas !');
+            $this->addFlash('danger', 'La galerie n\'existe pas !');
             return $this->redirectToRoute('app_gallery_index');
         }
         $comment = new Comment();
@@ -86,7 +86,7 @@ class GalleryController extends AbstractController
             $gallery->setUser($this->getUser());
             $this->entityManager->persist($gallery);
             $this->entityManager->flush();
-            $this->addFlash('success', 'La gallerie a bien été créée !');
+            $this->addFlash('success', 'La galerie a bien été créée !');
             return $this->redirectToRoute('app_admin_gallery_show', ['id' => $gallery->getId()]);
         }
 
@@ -138,7 +138,7 @@ class GalleryController extends AbstractController
 
             $this->entityManager->persist($gallery);
             $this->entityManager->flush();
-            $this->addFlash('success', 'La gallerie a bien été modifiée !');
+            $this->addFlash('success', 'La galerie a bien été modifiée !');
             return $this->redirectToRoute('app_admin_gallery');
         }
 
@@ -155,7 +155,7 @@ class GalleryController extends AbstractController
     {
         $gallery = $this->galleryRepository->find($id);
         if (!$gallery) {
-            $this->addFlash('danger', 'La gallerie n\'existe pas !');
+            $this->addFlash('danger', 'La galerie n\'existe pas !');
             return $this->redirectToRoute('app_admin_gallery');
         }
 
@@ -166,7 +166,7 @@ class GalleryController extends AbstractController
         }
         $this->entityManager->remove($gallery);
         $this->entityManager->flush();
-        $this->addFlash('success', 'La gallerie a bien été supprimée !');
+        $this->addFlash('success', 'La galerie a bien été supprimée !');
         return $this->redirectToRoute('app_admin_gallery');
     }
 

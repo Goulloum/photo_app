@@ -54,7 +54,7 @@
                             app.request.pathinfo == '/' ? ' bold' : ' inherit'
                         }}"
                         href="{{ path('app_gallery_index') }}"
-                        >Galleries</a
+                        >Galeries</a
                     >
                 </li>
                 <li>
@@ -80,7 +80,15 @@
                         >Contact</a
                     >
                 </li>
+                {% if app.user %}
                 <li>
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                <li>
+                {% endif %}
                     <span class="material-symbols-outlined dark-mode">
                         dark_mode
                     </span>
@@ -110,7 +118,7 @@
                                     : ' inherit'
                             }}"
                             href="{{ path('app_gallery_index') }}"
-                            >Galleries</a
+                            >Galeries</a
                         >
                     </li>
                     <li>
@@ -138,6 +146,16 @@
                             >Contact</a
                         >
                     </li>
+                    </li>
+                {% if app.user %}
+                <li>
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                <li>
+                {% endif %}
                     <li class="dark-mode">
                         <span class="material-symbols-outlined">
                             dark_mode

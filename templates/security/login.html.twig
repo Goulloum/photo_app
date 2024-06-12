@@ -50,12 +50,17 @@ stylesheets %}
             <button class="btn btn-lg btn-primary" type="submit">
                 Connexion
             </button>
+        <a href="{{ path('app_register') }}"
+            >Créer un compte</a
+        >
+            </div>
+
+<script>
         </div>
         {% endif %}
     </form>
-</div>
+    
 
-<script>
     $(document).ready(() => {
         $(".password-input span").click(() => {
             if ($("#inputPassword").attr("type") == "password") {
