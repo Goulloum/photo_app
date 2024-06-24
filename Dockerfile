@@ -10,7 +10,7 @@ RUN docker-php-ext-install pdo_mysql
 WORKDIR /app
 COPY . /app
 
-# ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN composer install
 
