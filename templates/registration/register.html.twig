@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block
+stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/security/login.css') }}" />
+{% endblock %} 
+{% block title %}Création de compte{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="login-container">
+
+        <h1>Créer son compte</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.fullName) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Mot de passe'
+        }) }}
+        <button type="submit" class="btn">Créer son compte</button>
+    {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

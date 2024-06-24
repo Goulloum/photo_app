@@ -1,0 +1,7 @@
+{% if formCreateComment and app.user %}
+{{ form_start(formCreateComment) }}
+{{ form_row(formCreateComment.text) }}
+<input type="hidden" name="{{ field_name(formCreateComment.photoId) }}" />
+<button type="submit" class="btn">Publier</button>
+{{ form_end(formCreateComment) }}
+{% endif %}

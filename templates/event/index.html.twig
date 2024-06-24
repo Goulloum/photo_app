@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/event/index.css') }}" />
+{% endblock %} {% block body %}
+<div class="events-container">
+    {% for event in events|sort((a,b) => a.date <=> b.date) %}
+
+    <div class="event-card">
+        <div class="top">
+            <div class="event-title">
+                <h2>{{ event.name }}</h2>
+            </div>
+            <div class="bottom">
+                <div class="left">
+                    <div class="event-date">
+                        <h3>{{ event.date|date('d/m/Y') }}</h3>
+                    </div>
+                    <div class="event-logcation">
+                        <h3>{{ event.location }}</h3>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="join-event-btn">
+                        <a
+                            href="{{
+                                path('app_event_join', { id: event.id })
+                            }}"
+                        >
+                            {{ app.user in event.participant ? 'Quitter' : 'Participer' }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

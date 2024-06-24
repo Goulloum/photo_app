@@ -1,0 +1,71 @@
+{% extends 'admin.base.html.twig' %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/admin/gallery.css') }}" />
+{% endblock %} {% block body %}
+<div class="gallery-admin-container main-container">
+
+    <div class="gallery-table-container">
+        <table id="galleries" class="display">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Emplacement</th>
+                    <th>Date</th>
+                    <th>Date de création</th>
+                    <th>Date de mise à jour</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.location }}</td>
+                    <td>{{ event.date|date('d/m/Y')  }}</td>
+                    <td>{{ event.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ event.updatedAt|date('d/m/Y') }}</td>
+                    <td class="gallery-actions">
+                        <a
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? ')"
+                            href="{{
+                                path('app_event_delete', {
+                                    id: event.id
+                                })
+                            }}"
+                            class="btn btn-minimal"
+                            >Supprimer</a
+                        >
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let table = new DataTable("#galleries", {
+        language: {
+            lengthMenu: "Afficher _MENU_ lignes par page",
+            zeroRecords: "Aucun résultat trouvé",
+            info: "_PAGE_ sur _PAGES_",
+            infoEmpty: "Aucun résultat trouvé",
+            paginate: {
+                first: "Première",
+                last: "Dernière",
+                next: "Suivant",
+                previous: "Précédent",
+            },
+            search: "Rechercher :",
+        },
+        dom: "Bfrtip",
+        buttons: [
+            {
+                text: "Ajouter",
+                action: function (e, dt, node, config) {
+                    document.location = "{{ path('app_event_create') }}";
+                },
+            },
+        ],
+    });
+</script>
+{% endblock %}
