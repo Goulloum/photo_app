@@ -39,6 +39,13 @@ class Gallery
     #[ORM\Column(nullable: true, options: ["default" => 99999])]
     private ?int $ordering = 99999;
 
+    #[ORM\ManyToOne(inversedBy: 'galleries')]
+    private ?User $user = null;
+
+
+
+
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -162,4 +169,17 @@ class Gallery
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }

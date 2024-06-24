@@ -43,9 +43,21 @@
                             : ''
                     }}"
                 >
-                    <a href="{{ path('app_admin_gallery') }}"
-                        >Édition gallerie</a
-                    >
+                    <a href="{{ path('app_admin_gallery') }}">Galeries</a>
+                </li>
+                <li
+                    class="{{
+                        app.request.pathinfo == '/admin/user' ? 'selected' : ''
+                    }}"
+                >
+                    <a href="{{ path('app_admin_user') }}">Utilisateurs</a>
+                </li>
+                <li
+                    class="{{
+                        app.request.pathinfo == '/admin/event' ? 'selected' : ''
+                    }}"
+                >
+                    <a href="{{ path('app_admin_event') }}">Événements</a>
                 </li>
                 {#
                 <li>
@@ -62,7 +74,9 @@
                 #}
             </ul>
             <div class="bottom-navbar">
-                <a href="{{ path('app_gallery') }}" class="btn btn-primary"
+                <a
+                    href="{{ path('app_gallery_index') }}"
+                    class="btn btn-primary"
                     >Retour au site</a
                 >
             </div>

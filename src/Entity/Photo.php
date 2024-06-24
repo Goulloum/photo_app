@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PhotoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,6 +49,19 @@ class Photo
 
     #[ORM\Column(nullable: true, options: ["default" => 99999])]
     private ?int $ordering = 99999;
+
+    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -158,6 +173,48 @@ class Photo
     public function setOrdering(?int $ordering): static
     {
         $this->ordering = $ordering;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setPhoto($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPhoto() === $this) {
+                $comment->setPhoto(null);
+            }
+        }
 
         return $this;
     }

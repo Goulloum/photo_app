@@ -72,6 +72,7 @@
     overflow: hidden;
     transition: width 0.2s ease-in-out;
     color: #f0f4ef;
+    overflow-y: auto;
 }
 .details-photo-active {
     width: 28vw;
@@ -149,6 +150,46 @@
     cursor: pointer;
     user-select: none;
     display: none !important;
+}
+
+.comments{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 3vh 0;
+
+}
+
+.comment{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 2vw;
+    background-color: #f0f4ef;
+    border-radius: 15px;
+    margin: 1vh 0;
+
+}
+
+.comment > .comment-text{
+    font-size: clamp(1rem, 1vh, 1.5rem);
+    font-weight: 100;
+    word-wrap: break-word;
+    width: 100%;
+    color: #0d1821;
+    text-align: justify;
+}
+
+
+
+.comment > .comment-user{
+    font-size: clamp(0.7rem, 0.7vh, 1.2rem);
+    font-weight: 700;
+    color: #0d1821;
 }
 
 @media screen and (min-width: 769px) {

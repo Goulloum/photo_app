@@ -37,6 +37,9 @@
                     <div class="location-photo"></div>
                 </div>
                 <p class="description-photo"></p>
+                
+                {% include "components/comment/create.html.twig" %}
+                <div class="comments"></div>
             </div>
         </div>
     </div>
@@ -50,7 +53,15 @@
         path: "{{ asset('imgs/' ~ gallery.name|lower|replace({' ': '_'}) ~ '/' ~ photo.path) }}",
         date: "{{ photo.datePhoto|date('d/m/Y') }}",
         location: "{{ photo.location }}",
-        description: "{{ photo.description|escape('js') }}"
+        description: "{{ photo.description|escape('js') }}",
+        comments: [{% for comment in photo.comments %} {
+            id: {{ comment.id }},
+            text: "{{ comment.text|escape('js') }}",
+            userFullName: "{{ comment.user.fullName }}",
+            createdAt: "{{ comment.createdAt|date('d/m/Y H:i') }}"
+        },
+        {% endfor %}]
+
     },
     {% endfor %}]
 
@@ -138,6 +149,8 @@
     function openModal(photoId) {
         isModalOpen = true
         let photo = photos.find((photo) => photo.id == photoId)
+        console.log(photo)
+
         $('.photo-modal img').attr('src', photo.path)
         $('.photo-modal img').attr('attr', photo.name)
         $('.photo-modal .photo-title').text(photo.name)
@@ -145,6 +158,12 @@
         $('.photo-modal .location-photo').text(photo.location)
         $('.photo-modal .description-photo').text(photo.description)
         $('.photo-modal-container').show()
+        $('.photo-modal form input[name="{{ field_name(formCreateComment.photoId) }}"]').val(photoId)
+
+        removeComments()
+        createComments(photo.comments)
+
+
     }
 
     function closeModal(){
@@ -167,6 +186,23 @@
         isInfoOpen = false
         $('.details-photo').removeClass('details-photo-active')
         $('.photo-modal img').removeClass('photo-modal-minimized')
+    }
+
+    function createComments(comments) {
+        let commentsHtml = ''
+        comments.sort((a,b) =>  new Date(b.createdAt) - new Date(a.createdAt)).forEach((comment) => {
+            commentsHtml += `
+            <div class="comment">
+                <p class="comment-text">${comment.text}</p>
+                <p class="comment-user">Par ${comment.userFullName} le ${comment.createdAt}</p>
+            </div>
+            `
+        })
+        $('.comments').html(commentsHtml)
+    }
+
+    function removeComments() {
+        $('.comments').html('')
     }
 
 

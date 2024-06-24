@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
+use App\Repository\EventRepository;
 use App\Repository\GalleryRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/admin', name: 'app_admin_')]
 class AdminController extends AbstractController
 {
 
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
 
@@ -21,7 +22,7 @@ class AdminController extends AbstractController
     }
 
 
-    #[Route('/admin/gallery', name: 'app_admin_gallery')]
+    #[Route('/gallery', name: 'gallery')]
     public function gallery(GalleryRepository $galleryRepository): Response
     {
         $galleries = $galleryRepository->findAll();
@@ -30,7 +31,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/gallery/{id}', name: 'app_admin_gallery_show', requirements: ['id' => '\d+'])]
+    #[Route('/gallery/{id}', name: 'gallery_show', requirements: ['id' => '\d+'])]
     public function galleryShow(GalleryRepository $galleryRepository, $id): Response
     {
         $gallery = $galleryRepository->find($id);
@@ -38,4 +39,22 @@ class AdminController extends AbstractController
             'gallery' => $gallery,
         ]);
     }
+
+    #[Route('/user', name: 'user')]
+    public function user(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findAll();
+
+        return $this->render('admin/user.html.twig', ['users' => $users]);
+    }
+
+    #[Route('/event', name: 'event')]
+    public function event(EventRepository $eventRepository): Response
+    {
+        $events = $eventRepository->findAll();
+        return $this->render('admin/event.html.twig',
+            ['events' => $events]);
+    }
+
+
 }
