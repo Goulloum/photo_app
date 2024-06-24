@@ -43,31 +43,21 @@
                             : ''
                     }}"
                 >
-                    <a href="{{ path('app_admin_gallery') }}"
-                        >Galeries</a
-                    >
+                    <a href="{{ path('app_admin_gallery') }}">Galeries</a>
                 </li>
                 <li
                     class="{{
-                        app.request.pathinfo == '/admin/user'
-                            ? 'selected'
-                            : ''
+                        app.request.pathinfo == '/admin/user' ? 'selected' : ''
                     }}"
                 >
-                    <a href="{{ path('app_admin_user') }}"
-                        >Utilisateurs</a
-                    >
+                    <a href="{{ path('app_admin_user') }}">Utilisateurs</a>
                 </li>
                 <li
                     class="{{
-                        app.request.pathinfo == '/admin/event'
-                            ? 'selected'
-                            : ''
+                        app.request.pathinfo == '/admin/event' ? 'selected' : ''
                     }}"
                 >
-                    <a href="{{ path('app_admin_event') }}"
-                        >Évènements</a
-                    >
+                    <a href="{{ path('app_admin_event') }}">Événements</a>
                 </li>
                 {#
                 <li>
